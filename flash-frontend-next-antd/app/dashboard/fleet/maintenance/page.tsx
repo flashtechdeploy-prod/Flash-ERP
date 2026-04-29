@@ -23,32 +23,22 @@ export default function VehicleMaintenancePage() {
   const loadVehicles = async () => {
     try {
       const response = await vehicleApi.getAll();
-      console.log('=== MAINTENANCE VEHICLES API RESPONSE ===');
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response error:', response.error);
-      console.log('Data type:', typeof response.data);
-      console.log('Is array:', Array.isArray(response.data));
 
       if (response.error) {
-        console.error('❌ Vehicle API error:', response.error);
         message.error(`Failed to load vehicles: ${response.error}`);
         setVehicles([]);
         return;
       }
 
       if (!response.data) {
-        console.warn('⚠️ No data in response');
         message.warning('No vehicles found');
         setVehicles([]);
         return;
       }
 
       const vehicleList = (response.data as any)?.vehicles || (response.data as any) || [];
-      console.log(`✅ Loaded ${vehicleList.length} vehicles:`, vehicleList);
       setVehicles(vehicleList);
     } catch (error) {
-      console.error('❌ Failed to load vehicles:', error);
       message.error('Failed to load vehicles');
       setVehicles([]);
     }
@@ -58,32 +48,22 @@ export default function VehicleMaintenancePage() {
     setLoading(true);
     try {
       const response = await vehicleMaintenanceApi.getAll();
-      console.log('=== MAINTENANCE RECORDS API RESPONSE ===');
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response error:', response.error);
-      console.log('Data type:', typeof response.data);
-      console.log('Is array:', Array.isArray(response.data));
 
       if (response.error) {
-        console.error('❌ Maintenance API error:', response.error);
         message.error(`Failed to load maintenance records: ${response.error}`);
         setRecords([]);
         return;
       }
 
       if (!response.data) {
-        console.warn('⚠️ No data in response');
         message.warning('No maintenance records found');
         setRecords([]);
         return;
       }
 
       const recordList = (response.data as any)?.maintenance_records || (response.data as any) || [];
-      console.log(`✅ Loaded ${recordList.length} maintenance records:`, recordList);
       setRecords(recordList);
     } catch (error) {
-      console.error('❌ Failed to load maintenance records:', error);
       message.error('Failed to load maintenance records');
       setRecords([]);
     } finally {
@@ -156,11 +136,10 @@ export default function VehicleMaintenancePage() {
   };
 
   const columns = [
-    { title: 'Date', dataIndex: 'maintenance_date', key: 'maintenance_date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
+    { title: 'Date', dataIndex: 'maintenance_date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
     {
       title: 'Vehicle',
       dataIndex: 'vehicle_id',
-      key: 'vehicle_id',
       width: 150,
       render: (id: string, record: any) => (
         <div style={{ fontSize: '11px' }}>
@@ -174,23 +153,21 @@ export default function VehicleMaintenancePage() {
     {
       title: 'License Plate',
       dataIndex: 'license_plate',
-      key: 'license_plate',
       width: 110,
       render: (plate: string) => <Tag color="blue" style={{ fontSize: '10px' }}>{plate || 'N/A'}</Tag>
     },
     {
       title: 'Type',
       dataIndex: 'maintenance_type',
-      key: 'maintenance_type',
       width: 120,
       render: (type: string) => {
         const colors: Record<string, string> = { service: 'blue', repair: 'orange', inspection: 'green', emergency: 'red' };
         return <Tag color={colors[type] || 'default'} style={{ fontSize: '11px' }}>{type?.toUpperCase()}</Tag>;
       }
     },
-    { title: 'Description', dataIndex: 'description', key: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
-    { title: 'Cost (Rs.)', dataIndex: 'cost', key: 'cost', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>Rs. {v?.toLocaleString()}</span> },
-    { title: 'Vendor', dataIndex: 'vendor', key: 'vendor', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Description', dataIndex: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Cost (Rs.)', dataIndex: 'cost', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>Rs. {v?.toLocaleString()}</span> },
+    { title: 'Vendor', dataIndex: 'vendor', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     {
       title: 'Actions',
       key: 'actions',

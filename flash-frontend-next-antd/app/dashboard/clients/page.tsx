@@ -121,47 +121,40 @@ export default function ClientsPage() {
     {
       title: 'Client ID',
       dataIndex: 'client_id',
-      key: 'client_id',
       width: 100,
       render: (text: string) => text || '-',
     },
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
       width: 150,
     },
     {
       title: 'Company',
       dataIndex: 'company_name',
-      key: 'company_name',
       width: 180,
       render: (text: string) => text || '-',
     },
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
       width: 180,
       ellipsis: true,
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
-      key: 'phone',
       width: 130,
     },
     {
       title: 'Industry',
       dataIndex: 'industry',
-      key: 'industry',
       width: 120,
       render: (text: string) => text || '-',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
       width: 100,
       render: (status: string) => {
         const color = status === 'active' ? 'green' : 'red';

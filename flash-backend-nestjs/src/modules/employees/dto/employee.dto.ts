@@ -25,6 +25,7 @@ export class CreateEmployeeDto {
   @ApiPropertyOptional() @IsString() @IsOptional() cnic_no?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() government_id?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() cnic_expiry_date?: string;
+  @ApiPropertyOptional() @IsString() @IsOptional() cnic_issue_date?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() cnic_expiry?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() date_of_birth?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() dob?: string;
@@ -167,6 +168,7 @@ export class CreateEmployeeDto {
   @ApiPropertyOptional() @IsString() @IsOptional() other_documents?: string;
 
   // Next of Kin
+  @ApiPropertyOptional() @IsString() @IsOptional() mother_name?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() nok_name?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() nok_cnic_no?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() nok_mobile_no?: string;

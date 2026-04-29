@@ -56,32 +56,22 @@ export default function VehicleAssignmentsPage() {
   const loadVehicles = async () => {
     try {
       const response = await vehicleApi.getAll();
-      console.log('=== VEHICLES API RESPONSE ===');
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response error:', response.error);
-      console.log('Data type:', typeof response.data);
-      console.log('Is array:', Array.isArray(response.data));
 
       if (response.error) {
-        console.error('❌ Vehicle API error:', response.error);
         message.error(`Failed to load vehicles: ${response.error}`);
         setVehicles([]);
         return;
       }
 
       if (!response.data) {
-        console.warn('⚠️ No data in response');
         message.warning('No vehicles found');
         setVehicles([]);
         return;
       }
 
       const vehicleList = (response.data as any)?.vehicles || (response.data as any) || [];
-      console.log(`✅ Loaded ${vehicleList.length} vehicles:`, vehicleList);
       setVehicles(vehicleList);
     } catch (error) {
-      console.error('❌ Failed to load vehicles:', error);
       message.error('Failed to load vehicles');
       setVehicles([]);
     }
@@ -90,32 +80,22 @@ export default function VehicleAssignmentsPage() {
   const loadEmployees = async () => {
     try {
       const response = await employeeApi.getAll({ limit: '10000' });
-      console.log('=== EMPLOYEES API RESPONSE ===');
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response error:', response.error);
-      console.log('Data type:', typeof response.data);
-      console.log('Is array:', Array.isArray(response.data));
 
       if (response.error) {
-        console.error('❌ Employee API error:', response.error);
         message.error(`Failed to load employees: ${response.error}`);
         setEmployees([]);
         return;
       }
 
       if (!response.data) {
-        console.warn('⚠️ No data in response');
         message.warning('No employees found');
         setEmployees([]);
         return;
       }
 
       const employeeList = (response.data as any)?.employees || (response.data as any) || [];
-      console.log(`✅ Loaded ${employeeList.length} employees:`, employeeList);
       setEmployees(employeeList);
     } catch (error) {
-      console.error('❌ Failed to load employees:', error);
       message.error('Failed to load employees');
       setEmployees([]);
     }
@@ -125,20 +105,16 @@ export default function VehicleAssignmentsPage() {
     setLoading(true);
     try {
       const response = await vehicleAssignmentApi.getAll();
-      console.log('Assignments Response:', response);
 
       if (response.error) {
-        console.error('Assignments error:', response.error);
         message.error(response.error);
         setAssignments([]);
         return;
       }
 
       const assignmentList = (response.data as any)?.assignments || (response.data as any) || [];
-      console.log('Assignments loaded:', assignmentList);
       setAssignments(Array.isArray(assignmentList) ? assignmentList : [assignmentList]);
     } catch (error) {
-      console.error('Failed to load assignments:', error);
       message.error('Failed to load assignments');
       setAssignments([]);
     } finally {
@@ -227,7 +203,6 @@ export default function VehicleAssignmentsPage() {
     {
       title: 'Vehicle',
       dataIndex: 'vehicle_id',
-      key: 'vehicle_id',
       width: 150,
       render: (id: string, record: any) => (
         <div style={{ fontSize: '11px' }}>
@@ -241,14 +216,12 @@ export default function VehicleAssignmentsPage() {
     {
       title: 'License Plate',
       dataIndex: 'license_plate',
-      key: 'license_plate',
       width: 110,
       render: (plate: string) => <Tag color="blue" style={{ fontSize: '10px' }}>{plate || 'N/A'}</Tag>
     },
     {
       title: 'Employee',
       dataIndex: 'employee_id',
-      key: 'employee_id',
       width: 180,
       render: (id: string, record: any) => (
         <div style={{ fontSize: '11px' }}>
@@ -264,28 +237,24 @@ export default function VehicleAssignmentsPage() {
     {
       title: 'Date',
       dataIndex: 'from_date',
-      key: 'from_date',
       width: 110,
       render: (date: string) => <span style={{ fontSize: '11px' }}>{date ? dayjs(date).format('DD MMM YYYY') : '-'}</span>
     },
     {
       title: 'Purpose',
       dataIndex: 'purpose',
-      key: 'purpose',
       ellipsis: true,
       render: (text: string) => <span style={{ fontSize: '11px' }}>{text}</span>
     },
     {
       title: 'Location',
       dataIndex: 'location',
-      key: 'location',
       width: 150,
       render: (text: string) => <span style={{ fontSize: '11px' }}>{text}</span>
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
       width: 100,
       render: (status: string) => (
         <Tag color={status === 'active' ? 'green' : status === 'completed' ? 'blue' : 'red'} style={{ fontSize: '11px' }}>

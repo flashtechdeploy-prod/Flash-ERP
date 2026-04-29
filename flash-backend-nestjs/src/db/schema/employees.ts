@@ -29,6 +29,7 @@ export const employees = pgTable('employees', {
   cnic: text('cnic'),
   cnic_no: text('cnic_no'),
   cnic_expiry_date: text('cnic_expiry_date'),
+  cnic_issue_date: text('cnic_issue_date'),
   cnic_expiry: text('cnic_expiry'),
   government_id: text('government_id'),
 
@@ -177,6 +178,7 @@ export const employees = pgTable('employees', {
   next_of_kin_name: text('next_of_kin_name'),
   next_of_kin_cnic: text('next_of_kin_cnic'),
   next_of_kin_mobile_number: text('next_of_kin_mobile_number'),
+  mother_name: text('mother_name'),
   nok_name: text('nok_name'),
   nok_cnic_no: text('nok_cnic_no'),
   nok_mobile_no: text('nok_mobile_no'),

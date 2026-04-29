@@ -305,7 +305,7 @@ export default function VehicleDetailPage() {
         </div>
       </Card>
 
-      {vehicle?.fuel_limit_monthly && (
+      {Boolean(vehicle?.fuel_limit_monthly) && (
         <Card className="mb-6" title="Monthly Fuel Monitoring" loading={loadingFuelData}>
           <Row gutter={16}>
             <Col span={8}>
@@ -481,14 +481,14 @@ export default function VehicleDetailPage() {
         </div>
       </Drawer>
 
-      <style jsx>{`
-        .section { margin-bottom: 25px; }
-        .section-title { font-size: 15px; font-weight: bold; background: linear-gradient(to right, #1890ff, #40a9ff); color: white; padding: 10px 15px; margin-bottom: 15px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
-        .field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px; }
-        .field { padding: 10px; background: #fafafa; border-radius: 4px; border-left: 3px solid #1890ff; }
-        .field-label { font-size: 11px; color: #1890ff; margin-bottom: 4px; }
-        .field-label strong { font-weight: 600; }
-        .field-value { font-size: 13px; color: #333; font-weight: 500; }
+      <style>{`
+        .section { margin-bottom: 22px; }
+        .section-title { font-size: 12px; font-weight: 700; background: linear-gradient(to right, #4f46e5, #818cf8); color: white; padding: 8px 14px; margin-bottom: 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 18px; }
+        .field { padding: 8px 10px; background: #f8fafc; border-radius: 4px; border-left: 3px solid #4f46e5; }
+        .field-label { font-size: 10px; color: #4f46e5; margin-bottom: 3px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .field-label strong { font-weight: 700; }
+        .field-value { font-size: 12px; color: #1e293b; font-weight: 500; }
       `}</style>
     </div>
   );

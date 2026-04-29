@@ -33,7 +33,6 @@ export default function FinancePage() {
         ? (Array.isArray(expensesRes.data) ? expensesRes.data : [])
         : (Array.isArray(expensesRes) ? expensesRes : []);
       setExpenses(expensesData);
-      console.log('Expenses loaded:', expensesData);
       
       // Handle journal entries - backend returns { data: [...] }
       const journalData = journalRes.data 
@@ -43,7 +42,6 @@ export default function FinancePage() {
         String(entry.entry_type || '').toLowerCase() === 'income'
       );
       setIncome(incomeEntries);
-      console.log('Income loaded:', incomeEntries);
     } catch (error) {
       console.error('Error loading financial data:', error);
       message.error('Failed to load financial data');
@@ -164,27 +162,25 @@ export default function FinancePage() {
   };
 
   const expenseColumns = [
-    { title: 'Date', dataIndex: 'date', key: 'date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
-    { title: 'Description', dataIndex: 'description', key: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Date', dataIndex: 'date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
+    { title: 'Description', dataIndex: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     { 
       title: 'Category', 
       dataIndex: 'category', 
-      key: 'category', 
       width: 120,
       render: (cat: string) => <Tag color="orange" style={{ fontSize: '11px' }}>{cat}</Tag>
     },
-    { title: 'Amount', dataIndex: 'amount', key: 'amount', width: 120, render: (v: number) => <span style={{ fontSize: '11px', color: '#ff4d4f', fontWeight: 600 }}>Rs. {v?.toLocaleString()}</span> },
+    { title: 'Amount', dataIndex: 'amount', width: 120, render: (v: number) => <span style={{ fontSize: '11px', color: '#ff4d4f', fontWeight: 600 }}>Rs. {v?.toLocaleString()}</span> },
     { 
       title: 'Status', 
       dataIndex: 'status', 
-      key: 'status', 
       width: 100,
       render: (status: string) => {
         const colors: Record<string, string> = { pending: 'orange', approved: 'blue', paid: 'green', rejected: 'red' };
         return <Tag color={colors[status] || 'default'} style={{ fontSize: '11px' }}>{status?.toUpperCase() || 'PENDING'}</Tag>;
       }
     },
-    { title: 'Vendor', dataIndex: 'vendor', key: 'vendor', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Vendor', dataIndex: 'vendor', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     {
       title: 'Actions',
       key: 'actions',
@@ -207,17 +203,16 @@ export default function FinancePage() {
   ];
 
   const incomeColumns = [
-    { title: 'Date', dataIndex: 'date', key: 'date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
-    { title: 'Description', dataIndex: 'description', key: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Date', dataIndex: 'date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
+    { title: 'Description', dataIndex: 'description', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     { 
       title: 'Category', 
       dataIndex: 'category', 
-      key: 'category', 
       width: 120,
       render: (cat: string) => <Tag color="green" style={{ fontSize: '11px' }}>{cat}</Tag>
     },
-    { title: 'Amount', dataIndex: 'amount', key: 'amount', width: 120, render: (v: number) => <span style={{ fontSize: '11px', color: '#52c41a', fontWeight: 600 }}>Rs. {v?.toLocaleString()}</span> },
-    { title: 'Reference', dataIndex: 'reference', key: 'reference', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Amount', dataIndex: 'amount', width: 120, render: (v: number) => <span style={{ fontSize: '11px', color: '#52c41a', fontWeight: 600 }}>Rs. {v?.toLocaleString()}</span> },
+    { title: 'Reference', dataIndex: 'reference', width: 150, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     {
       title: 'Actions',
       key: 'actions',
@@ -248,6 +243,41 @@ export default function FinancePage() {
   const totalExpenses = filteredExpenses.reduce((sum, exp) => sum + Number(exp.amount || 0), 0);
   const netBalance = totalIncome - totalExpenses;
   const paidExpenses = filteredExpenses.filter(exp => exp.status === 'paid').reduce((sum, exp) => sum + Number(exp.amount || 0), 0);
+
+  const tabItems = [
+    {
+      key: 'expenses',
+      label: (
+        <span>
+          <FallOutlined /> Expenses
+        </span>
+      ),
+      children: (
+        <>
+          <div style={{ marginBottom: '16px', textAlign: 'right' }}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleAdd('expense')}>Add Expense</Button>
+          </div>
+          <Table columns={expenseColumns} dataSource={filteredExpenses} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+        </>
+      ),
+    },
+    {
+      key: 'income',
+      label: (
+        <span>
+          <RiseOutlined /> Income
+        </span>
+      ),
+      children: (
+        <>
+          <div style={{ marginBottom: '16px', textAlign: 'right' }}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleAdd('income')}>Add Income</Button>
+          </div>
+          <Table columns={incomeColumns} dataSource={filteredIncome} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+        </>
+      ),
+    },
+  ];
 
   return (
     <div style={{ padding: '24px' }}>
@@ -305,35 +335,7 @@ export default function FinancePage() {
         </Col>
       </Row>
 
-      <Tabs defaultActiveKey="expenses">
-        <Tabs.TabPane 
-          tab={
-            <span>
-              <FallOutlined /> Expenses
-            </span>
-          } 
-          key="expenses"
-        >
-          <div style={{ marginBottom: '16px', textAlign: 'right' }}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleAdd('expense')}>Add Expense</Button>
-          </div>
-          <Table columns={expenseColumns} dataSource={filteredExpenses} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-        
-        <Tabs.TabPane 
-          tab={
-            <span>
-              <RiseOutlined /> Income
-            </span>
-          } 
-          key="income"
-        >
-          <div style={{ marginBottom: '16px', textAlign: 'right' }}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleAdd('income')}>Add Income</Button>
-          </div>
-          <Table columns={incomeColumns} dataSource={filteredIncome} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-      </Tabs>
+      <Tabs defaultActiveKey="expenses" items={tabItems} />
 
       <Drawer
         title={editingRecord ? `Edit ${transactionType === 'income' ? 'Income' : 'Expense'}` : `Add ${transactionType === 'income' ? 'Income' : 'Expense'}`}

@@ -374,7 +374,6 @@ function PayrollContent() {
     {
       title: 'No. of Employees',
       dataIndex: 'currentEmployees',
-      key: 'currentEmployees',
       width: 140,
       align: 'center' as const,
       render: (val: number) => <strong>{val}</strong>
@@ -382,7 +381,6 @@ function PayrollContent() {
     {
       title: 'Particulars',
       dataIndex: 'clientName',
-      key: 'clientName',
       render: (_: string, record: any) => (
         <div style={{
           fontSize: '13px',
@@ -396,7 +394,6 @@ function PayrollContent() {
     {
       title: month.format('MMMM YYYY'),
       dataIndex: 'currentAmount',
-      key: 'currentAmount',
       width: 150,
       align: 'right' as const,
       render: (val: number) => (
@@ -412,7 +409,6 @@ function PayrollContent() {
     {
       title: month.subtract(1, 'month').format('MMMM YYYY'),
       dataIndex: 'prevAmount',
-      key: 'prevAmount',
       width: 150,
       align: 'right' as const,
       render: (val: number) => (
@@ -427,7 +423,6 @@ function PayrollContent() {
     {
       title: 'Difference',
       dataIndex: 'difference',
-      key: 'difference',
       width: 150,
       align: 'right' as const,
       render: (val: number) => {
@@ -532,22 +527,20 @@ function PayrollContent() {
   };
 
   const columns = [
-    { title: 'FSS No', dataIndex: 'fss_no', key: 'fss_no', width: 90, fixed: 'left' as const, className: 'font-mono' },
+    { title: 'FSS No', dataIndex: 'fss_no', width: 90, fixed: 'left' as const, className: 'font-mono' },
     {
       title: 'Name',
       dataIndex: 'full_name',
-      key: 'full_name',
       width: 180,
       fixed: 'left' as const,
       render: (text: string) => <span style={{ fontWeight: 600, color: '#1e293b' }}>{text}</span>
     },
 
-    { title: 'cnic', dataIndex: 'cnic', key: 'cnic', width: 120 },
-    { title: 'mobile number', dataIndex: 'mobile_number', key: 'mobile_number', width: 120 },
+    { title: 'cnic', dataIndex: 'cnic', width: 120 },
+    { title: 'mobile number', dataIndex: 'mobile_number', width: 120 },
     {
       title: 'Wallet A/C Number',
       dataIndex: 'main_number',
-      key: 'main_number',
       width: 130,
       render: (val: string, record: PayrollEmployee) => (
         <Input
@@ -559,7 +552,7 @@ function PayrollContent() {
       )
     },
 
-    { title: 'Bank A/C Number', dataIndex: 'account_number', key: 'account_number', width: 120,
+    { title: 'Bank A/C Number', dataIndex: 'account_number', width: 120,
 render: (val: string, record: PayrollEmployee) => (
         <Input
           defaultValue={val}
@@ -572,12 +565,11 @@ render: (val: string, record: PayrollEmployee) => (
      },
 
 
-    { title: 'Basic Salary', dataIndex: 'totalSalary', key: 'totalSalary', width: 110, render: (v: number) => v.toLocaleString() },
-    { title: 'Per Day', dataIndex: 'perDaySalary', key: 'perDaySalary', width: 100, render: (v: number) => v.toLocaleString() },
+    { title: 'Basic Salary', dataIndex: 'totalSalary', width: 110, render: (v: number) => v.toLocaleString() },
+    { title: 'Per Day', dataIndex: 'perDaySalary', width: 100, render: (v: number) => v.toLocaleString() },
     {
       title: `${month.subtract(1, 'month').format('MMM.')} Days`,
       dataIndex: 'preDays',
-      key: 'preDays',
       width: 90,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.pre_days_override ?? val;
@@ -600,7 +592,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: `${month.format('MMM.')} Days`,
       dataIndex: 'curDays',
-      key: 'curDays',
       width: 90,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.cur_days_override ?? val;
@@ -621,19 +612,17 @@ render: (val: string, record: PayrollEmployee) => (
       }
     },
 
-    { title: 'Leave', dataIndex: 'leaveDays', key: 'leaveDays', width: 70 },
-    { title: 'Total', dataIndex: 'totalDays', key: 'totalDays', width: 70, render: (v: number) => <Tag color={v > 25 ? 'green' : 'orange'}>{v}</Tag> },
+    { title: 'Leave', dataIndex: 'leaveDays', width: 70 },
+    { title: 'Total', dataIndex: 'totalDays', width: 70, render: (v: number) => <Tag color={v > 25 ? 'green' : 'orange'}>{v}</Tag> },
     {
       title: 'O.T',
       dataIndex: 'otDaysCount',
-      key: 'otDaysCount',
       width: 70,
       render: (val: number) => <span style={{ fontWeight: 600 }}>{val}</span>
     },
     {
       title: 'O.T Rate',
       dataIndex: 'otRate',
-      key: 'otRate',
       width: 100,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.ot_rate_override ?? val;
@@ -654,7 +643,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'O.T Amount',
       dataIndex: 'overtimePay',
-      key: 'overtimePay',
       width: 140,
       render: (val: number, record: PayrollEmployee) => {
         // Recalculate OT Amount based on potentially edited OT Rate
@@ -670,7 +658,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Allow/Other',
       dataIndex: 'allow_other',
-      key: 'allow_other',
       width: 110,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.allow_other ?? val;
@@ -691,7 +678,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Gross',
       dataIndex: 'grossSalary',
-      key: 'grossSalary',
       width: 110,
       render: (v: number, record: PayrollEmployee) => {
         // Recalculate Gross based on potentially edited values
@@ -705,7 +691,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'EOBI',
       dataIndex: 'eobi',
-      key: 'eobi',
       width: 90,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.eobi ?? val;
@@ -726,7 +711,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Fine',
       dataIndex: 'totalFines',
-      key: 'totalFines',
       width: 100,
       render: (val: number) => (
         <span style={{ color: val > 0 ? '#ef4444' : 'inherit', fontWeight: val > 0 ? 600 : 'normal' }}>
@@ -737,7 +721,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Tax/Fine',
       dataIndex: 'taxFineAdv',
-      key: 'taxFineAdv',
       width: 100,
       render: (val: number, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.fine_adv_extra ?? val;
@@ -758,7 +741,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Net Payable',
       dataIndex: 'netSalary',
-      key: 'netSalary',
       width: 130,
       render: (v: number, record: PayrollEmployee) => {
         // Recalculate Net Payable based on potentially edited values
@@ -777,7 +759,6 @@ render: (val: string, record: PayrollEmployee) => (
     {
       title: 'Bank/Cash',
       dataIndex: 'bank_cash',
-      key: 'bank_cash',
       width: 120,
       render: (val: string, record: PayrollEmployee) => {
         const currentValue = editingValues[record.id]?.bank_cash ?? val;
@@ -1052,20 +1033,17 @@ render: (val: string, record: PayrollEmployee) => (
               {
                 title: 'CLIENT NAME',
                 dataIndex: 'name',
-                key: 'name',
                 render: (val) => <span style={{ fontWeight: 700, fontSize: '15px' }}>{val}</span>
               },
               {
                 title: 'TOTAL GUARDS',
                 dataIndex: 'guardCount',
-                key: 'guardCount',
                 width: 150,
                 render: (count) => <Tag color="blue" bordered={false}>{count} Guards</Tag>
               },
               {
                 title: 'TOTAL NET PAYABLE',
                 dataIndex: 'totalNet',
-                key: 'totalNet',
                 width: 250,
                 align: 'right',
                 render: (val) => <span style={{ fontWeight: 700, color: '#10b981' }}>Rs. {val.toLocaleString()}</span>
@@ -1116,20 +1094,17 @@ render: (val: string, record: PayrollEmployee) => (
               {
                 title: 'SITE NAME',
                 dataIndex: 'name',
-                key: 'name',
                 render: (val) => <span style={{ fontWeight: 600 }}>{val}</span>
               },
               {
                 title: 'GUARDS',
                 dataIndex: 'guardCount',
-                key: 'guardCount',
                 width: 120,
                 render: (c) => <Tag color="cyan">{c}</Tag>
               },
               {
                 title: 'SITE TOTAL',
                 dataIndex: 'totalNet',
-                key: 'totalNet',
                 width: 200,
                 align: 'right',
                 render: (v) => <span style={{ fontWeight: 600 }}>Rs. {v.toLocaleString()}</span>

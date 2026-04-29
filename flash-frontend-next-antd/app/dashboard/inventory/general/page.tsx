@@ -46,9 +46,7 @@ export default function GeneralInventoryPage() {
   const loadCategories = async () => {
     try {
       const response = await generalInventoryApi.getCategories();
-      console.log('Categories response:', response);
       const categoryList = response.data ? (Array.isArray(response.data) ? response.data : []) : [];
-      console.log('Loaded categories:', categoryList);
       setCategories(categoryList);
     } catch (error) {
       console.error('Failed to load categories:', error);
@@ -58,7 +56,6 @@ export default function GeneralInventoryPage() {
   const loadEmployees = async () => {
     try {
       const response = await employeeApi.getAll({ limit: '10000' });
-      console.log('Employees response:', response);
       let employeeList: Record<string, unknown>[] = [];
 
       if (Array.isArray(response)) {
@@ -71,7 +68,6 @@ export default function GeneralInventoryPage() {
         }
       }
 
-      console.log('Loaded employees:', employeeList);
       setEmployees(employeeList);
     } catch (error) {
       console.error('Failed to load employees:', error);
@@ -86,9 +82,6 @@ export default function GeneralInventoryPage() {
         generalInventoryApi.getItems(),
         generalInventoryApi.getTransactions(),
       ]);
-
-      console.log('Items response:', itemsResponse);
-      console.log('Transactions response:', transResponse);
 
       const itemsList = itemsResponse.data ? (Array.isArray(itemsResponse.data) ? itemsResponse.data : []) : [];
       const transList = transResponse.data ? (Array.isArray(transResponse.data) ? transResponse.data : []) : [];
@@ -238,12 +231,12 @@ export default function GeneralInventoryPage() {
   };
 
   const itemColumns = [
-    { title: 'Code', dataIndex: 'item_code', key: 'item_code', width: 90, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
-    { title: 'Name', dataIndex: 'name', key: 'name', width: 180, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
-    { title: 'Category', dataIndex: 'category', key: 'category', width: 110, render: (t: string) => <Tag color="blue" style={{ fontSize: '11px' }}>{t}</Tag> },
-    { title: 'Quantity in Stock', dataIndex: 'quantity_on_hand', key: 'quantity_on_hand', width: 110, render: (_: number, record: Record<string, unknown>) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{getQty(record)}</span> },
+    { title: 'Code', dataIndex: 'item_code', width: 90, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'Name', dataIndex: 'name', width: 180, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Category', dataIndex: 'category', width: 110, render: (t: string) => <Tag color="blue" style={{ fontSize: '11px' }}>{t}</Tag> },
+    { title: 'Quantity in Stock', dataIndex: 'quantity_on_hand', width: 110, render: (_: number, record: Record<string, unknown>) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{getQty(record)}</span> },
     {
-      title: 'Total Quantity', key: 'total_quantity', width: 110, render: (_: unknown, record: Record<string, unknown>) => {
+      title: 'Total Quantity', width: 110, render: (_: unknown, record: Record<string, unknown>) => {
         const code = String(record.item_code || '');
         const stock = getQty(record);
         const issued = issuedByItem[code] || 0;
@@ -252,23 +245,22 @@ export default function GeneralInventoryPage() {
       }
     },
     {
-      title: 'Total Issues', key: 'total_issues', width: 100, render: (_: unknown, record: Record<string, unknown>) => {
+      title: 'Total Issues', width: 100, render: (_: unknown, record: Record<string, unknown>) => {
         const code = String(record.item_code || '');
         const issued = issuedByItem[code] || 0;
         return <span style={{ fontSize: '11px', fontWeight: 600 }}>{issued}</span>;
       }
     },
     {
-      title: 'Available', key: 'available', width: 100, render: (_: unknown, record: Record<string, unknown>) => {
+      title: 'Available', width: 100, render: (_: unknown, record: Record<string, unknown>) => {
         const code = String(record.item_code || '');
         const available = getQty(record);
         return <span style={{ fontSize: '11px', fontWeight: 600 }}>{available}</span>;
       }
     },
-    { title: 'Min Stock', dataIndex: 'min_quantity', key: 'min_quantity', width: 90, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
+    { title: 'Min Stock', dataIndex: 'min_quantity', width: 90, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
     {
       title: 'Status',
-      key: 'status',
       width: 90,
       render: (_: unknown, record: Record<string, unknown>) => {
         const stock = Number(record.quantity_on_hand || 0);
@@ -296,11 +288,10 @@ export default function GeneralInventoryPage() {
   ];
 
   const transactionColumns = [
-    { title: 'FSS No.', dataIndex: 'employee_id', key: 'employee_id', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'FSS No.', dataIndex: 'employee_id', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
     {
       title: 'Emp Name',
       dataIndex: 'employee_id',
-      key: 'emp_name',
       width: 150,
       render: (empId: string) => {
         const emp = employees.find((e: Record<string, unknown>) =>
@@ -309,20 +300,19 @@ export default function GeneralInventoryPage() {
         return <span style={{ fontSize: '11px' }}>{emp ? (String(emp.full_name || emp.name || '') || (String(emp.first_name || '') + ' ' + String(emp.last_name || '')).trim()) : empId || '-'}</span>;
       }
     },
-    { title: 'Item', dataIndex: 'item_code', key: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'Item', dataIndex: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
     {
       title: 'Type',
       dataIndex: 'action',
-      key: 'action',
       width: 100,
       render: (type: string) => {
         const colors: Record<string, string> = { issue: 'blue', return: 'green', lost: 'red', damaged: 'orange', adjust: 'purple' };
         return <Tag color={colors[type] || 'default'} style={{ fontSize: '11px' }}>{type?.toUpperCase()}</Tag>;
       }
     },
-    { title: 'Quantity', dataIndex: 'quantity', key: 'quantity', width: 80, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
-    { title: 'Notes', dataIndex: 'notes', key: 'notes', width: 180, ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
-    { title: 'Date', dataIndex: 'transaction_date', key: 'transaction_date', width: 110, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Quantity', dataIndex: 'quantity', width: 80, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
+    { title: 'Notes', dataIndex: 'notes', width: 180, ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
+    { title: 'Date', dataIndex: 'transaction_date', width: 110, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
   ];
 
   const filteredItems = items.filter(item => {
@@ -349,6 +339,23 @@ export default function GeneralInventoryPage() {
   const totalUnits = totalStock + issuedUnits;
   const availableUnits = totalStock;
 
+  const tabItems = [
+    {
+      key: 'items',
+      label: 'Items',
+      children: (
+        <Table columns={itemColumns} dataSource={filteredItems} rowKey="item_code" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+      ),
+    },
+    {
+      key: 'transactions',
+      label: 'Transactions',
+      children: (
+        <Table columns={transactionColumns} dataSource={transactions} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+      ),
+    },
+  ];
+
   return (
     <div style={{ padding: '24px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -373,14 +380,7 @@ export default function GeneralInventoryPage() {
         </Col>
       </Row>
 
-      <Tabs defaultActiveKey="items">
-        <Tabs.TabPane tab="Items" key="items">
-          <Table columns={itemColumns} dataSource={filteredItems} rowKey="item_code" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Transactions" key="transactions">
-          <Table columns={transactionColumns} dataSource={transactions} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-      </Tabs>
+      <Tabs defaultActiveKey="items" items={tabItems} />
 
       {/* Item Drawer */}
       <Drawer

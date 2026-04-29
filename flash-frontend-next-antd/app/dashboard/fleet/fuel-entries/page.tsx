@@ -148,11 +148,10 @@ export default function FuelEntriesPage() {
   };
 
   const columns = [
-    { title: 'Date', dataIndex: 'entry_date', key: 'entry_date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
+    { title: 'Date', dataIndex: 'entry_date', width: 110, render: (d: string) => <span style={{ fontSize: '11px' }}>{dayjs(d).format('DD MMM YYYY')}</span> },
     {
       title: 'Vehicle',
       dataIndex: 'vehicle_id',
-      key: 'vehicle_id',
       width: 150,
       render: (id: string, record: any) => (
         <div style={{ fontSize: '11px' }}>
@@ -166,15 +165,14 @@ export default function FuelEntriesPage() {
     {
       title: 'License Plate',
       dataIndex: 'license_plate',
-      key: 'license_plate',
       width: 110,
       render: (plate: string) => <Tag color="blue" style={{ fontSize: '10px' }}>{plate || 'N/A'}</Tag>
     },
-    { title: 'Type', dataIndex: 'fuel_type', key: 'fuel_type', width: 80, render: (t: string) => <span style={{ fontSize: '11px' }}>{t?.toUpperCase()}</span> },
-    { title: 'Liters', dataIndex: 'liters', key: 'liters', width: 80, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
-    { title: 'Cost (Rs.)', dataIndex: 'total_cost', key: 'total_cost', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>Rs. {v?.toLocaleString()}</span> },
-    { title: 'Odometer', dataIndex: 'odometer_km', key: 'odometer_km', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>{v?.toLocaleString()} km</span> },
-    { title: 'Vendor', dataIndex: 'vendor', key: 'vendor', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Type', dataIndex: 'fuel_type', width: 80, render: (t: string) => <span style={{ fontSize: '11px' }}>{t?.toUpperCase()}</span> },
+    { title: 'Liters', dataIndex: 'liters', width: 80, render: (v: number) => <span style={{ fontSize: '11px' }}>{v}</span> },
+    { title: 'Cost (Rs.)', dataIndex: 'total_cost', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>Rs. {v?.toLocaleString()}</span> },
+    { title: 'Odometer', dataIndex: 'odometer_km', width: 100, render: (v: number) => <span style={{ fontSize: '11px' }}>{v?.toLocaleString()} km</span> },
+    { title: 'Vendor', dataIndex: 'vendor', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     {
       title: 'Actions',
       key: 'actions',

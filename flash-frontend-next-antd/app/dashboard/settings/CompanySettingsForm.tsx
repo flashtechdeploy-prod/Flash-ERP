@@ -20,9 +20,9 @@ export default function CompanySettingsForm() {
     const fetchSettings = async () => {
         try {
             const { data } = await companySettingsApi.get();
-            form.setFieldsValue(data);
-            if (data.logo_url || data.logoUrl) {
-                setImageUrl(getFullFileUrl(data.logo_url || data.logoUrl));
+            form.setFieldsValue(data as any);
+            if ((data as any).logo_url || (data as any).logoUrl) {
+                setImageUrl(getFullFileUrl((data as any).logo_url || (data as any).logoUrl));
             }
         } catch (error) {
             console.error('Failed to fetch settings:', error);
@@ -50,8 +50,8 @@ export default function CompanySettingsForm() {
         try {
             const { data } = await companySettingsApi.update(formData);
             message.success('Settings updated successfully');
-            if (data.logo_url || data.logoUrl) {
-                setImageUrl(getFullFileUrl(data.logo_url || data.logoUrl));
+            if ((data as any).logo_url || (data as any).logoUrl) {
+                setImageUrl(getFullFileUrl((data as any).logo_url || (data as any).logoUrl));
             }
         } catch (error) {
             console.error('Failed to update settings:', error);

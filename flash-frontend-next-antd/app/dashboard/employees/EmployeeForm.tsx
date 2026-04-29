@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { CameraOutlined, EditOutlined, DeleteOutlined,  } from '@ant-design/icons';
 import { Form, Input, Button, Row, Col, DatePicker, InputNumber, Select, Divider, Upload, Modal, Space, Tag, message } from 'antd';
 import { employeeApi } from '@/lib/api';
@@ -86,6 +86,7 @@ const DEFAULT_FIELDS: FieldConfig[] = [
   { id: 'gender', label: 'Gender', name: 'gender', span: 6, component: 'select', section: 'Bio Data', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }] },
 
   { id: 'cnic', label: 'CNIC No', name: 'cnic', span: 6, component: 'input', placeholder: '12345-1234567-1', section: 'Bio Data' },
+  { id: 'cnic_issue_date', label: 'CNIC Issue Date', name: 'cnic_issue_date', span: 6, component: 'datepicker', section: 'Bio Data' },
   { id: 'cnic_expiry_date', label: 'CNIC Expiry', name: 'cnic_expiry_date', span: 6, component: 'datepicker', section: 'Bio Data' },
   { id: 'date_of_birth', label: 'Date of Birth', name: 'date_of_birth', span: 6, component: 'datepicker', section: 'Bio Data' },
   { id: 'height', label: 'Height', name: 'height', span: 6, component: 'input', placeholder: "5'10\"", section: 'Bio Data' },
@@ -120,6 +121,7 @@ const DEFAULT_FIELDS: FieldConfig[] = [
   { id: 'daughters', label: 'Daughters', name: 'daughters', span: 3, component: 'inputnumber', section: 'Family & Next of King' },
   { id: 'brothers', label: 'Brothers', name: 'brothers', span: 3, component: 'inputnumber', section: 'Family & Next of King' },
   { id: 'sisters', label: 'Sisters', name: 'sisters', span: 3, component: 'inputnumber', section: 'Family & Next of King' },
+  { id: 'mother_name', label: 'Mother Name', name: 'mother_name', span: 8, component: 'input', placeholder: "Mother's name", section: 'Family & Next of King' },
   { id: 'nok_name', label: 'NOK Name', name: 'nok_name', span: 8, component: 'input', placeholder: 'Next of Kin name', section: 'Family & Next of King' },
   { id: 'nok_cnic_no', label: 'NOK CNIC', name: 'nok_cnic_no', span: 8, component: 'input', placeholder: '12345-1234567-1', section: 'Family & Next of King' },
   { id: 'nok_mobile_no', label: 'NOK Mobile', name: 'nok_mobile_no', span: 8, component: 'input', placeholder: '03001234567', section: 'Family & Next of King' },
@@ -257,7 +259,6 @@ function StatusManagementModal({ visible, onClose, onRefresh }: { visible: boole
       loadStatuses();
       onRefresh();
     } catch (error) {
-      console.error('Save error:', error);
       message.error('Failed to save status');
     }
   };
@@ -345,7 +346,7 @@ export default function EmployeeForm({
         setPersonStatuses(response.data);
       }
     } catch (error) {
-      console.error('Failed to load person statuses:', error);
+      // Failed to load person statuses
     }
   };
 
@@ -363,7 +364,7 @@ export default function EmployeeForm({
 
   const handleSubmit = (values: Record<string, unknown>) => {
     const formattedValues = { ...values };
-    const dateFields = ['cnic_expiry_date', 'date_of_birth', 'date_of_enrolment',
+    const dateFields = ['cnic_expiry_date', 'cnic_issue_date', 'date_of_birth', 'date_of_enrolment',
       'date_of_re_enrolment', 'agreement_date', 'sho_verification_date', 'ssp_verification_date', 'verified_by_khidmat_markaz'];
 
     dateFields.forEach(field => {
@@ -389,7 +390,7 @@ export default function EmployeeForm({
     if (!values.cnic_expiry_date && values.cnic_expiry) values.cnic_expiry_date = values.cnic_expiry;
     if (!values.phone && (values.mobile_number || values.mobile_no)) values.phone = values.mobile_number || values.mobile_no;
 
-    const dateFields = ['cnic_expiry_date', 'date_of_birth', 'date_of_enrolment',
+    const dateFields = ['cnic_expiry_date', 'cnic_issue_date', 'date_of_birth', 'date_of_enrolment',
       'date_of_re_enrolment', 'agreement_date', 'sho_verification_date', 'ssp_verification_date', 'verified_by_khidmat_markaz'];
 
     dateFields.forEach(field => {
@@ -426,23 +427,25 @@ export default function EmployeeForm({
 
   const renderedFields = useMemo(() => {
     let currentSection = '';
-    return DEFAULT_FIELDS.map((field) => {
+    const items: React.ReactNode[] = [];
+
+    DEFAULT_FIELDS.forEach((field) => {
       // Modify options dynamically for person_status
       const fieldConfig = { ...field };
       if (field.id === 'person_status') {
         fieldConfig.options = personStatuses.map((s: any) => ({ label: s.name, value: s.name }));
       }
 
-      const elements = [];
       if (field.section && field.section !== currentSection) {
         currentSection = field.section;
-        elements.push(
+        items.push(
           <Col span={24} key={`divider-${field.section}`}>
             <Divider>{field.section}</Divider>
           </Col>
         );
       }
-      elements.push(
+
+      items.push(
         <FormField
           key={field.id}
           field={fieldConfig}
@@ -450,8 +453,9 @@ export default function EmployeeForm({
           onStatusManage={() => setIsStatusModalVisible(true)}
         />
       );
-      return elements;
     });
+
+    return items;
   }, [personStatuses]);
 
   return (

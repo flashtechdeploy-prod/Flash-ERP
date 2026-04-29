@@ -61,7 +61,7 @@ const parseGPS = (locStr: string | null | undefined) => {
       return { lat: parseFloat(nums[0]), lng: parseFloat(nums[1]) };
     }
   } catch (e) {
-    console.warn('GPS Parse Error:', e);
+    // GPS Parse Error
   }
   return null;
 };
@@ -102,7 +102,6 @@ const getOvertimeMinutes = (record: any, selectedDateStr: string) => {
     }
     return diff > 0 ? diff : 0;
   } catch (e) {
-    console.error('OT Calc Error:', e);
     return record.overtime_minutes || 0;
   }
 };
@@ -159,19 +158,16 @@ export default function AttendancePage() {
   const fetchFullSheet = async (date: Dayjs) => {
     setLoading(true);
     const dateStr = date.format('YYYY-MM-DD');
-    console.log(`Optimized load: Fetching full attendance for ${dateStr}...`);
 
     const response = await attendanceApi.getFullDaySheet(dateStr);
     setLoading(false);
 
     if (response.error) {
-      console.error('Fetch error:', response.error);
       message.error(response.error);
       return;
     }
 
     const data = response.data as AttendanceRecord[];
-    console.log(`[fetchFullSheet] Loaded ${data.length} employees.`);
 
     // Auto-calculate overtime if times are present but minutes are not
     const processedData = data.map(r => ({
@@ -377,7 +373,7 @@ export default function AttendancePage() {
     }
   };
 
-  console.log(attendance, "attendance")
+
 
   const getStatusBadge = (status: string, statusType: string) => {
     const isActive = status === statusType;
@@ -411,7 +407,7 @@ export default function AttendancePage() {
     );
   };
 
-  console.log(employees)
+
   const columns = [
     {
       title: '-',
@@ -425,7 +421,6 @@ export default function AttendancePage() {
     {
       title: 'FSS No',
       dataIndex: 'fss_id',
-      key: 'fss_id',
       width: 80,
       sorter: (a: AttendanceRecord, b: AttendanceRecord) => {
         const idA = parseInt(a.fss_id || '0', 10);
@@ -449,7 +444,6 @@ export default function AttendancePage() {
     {
       title: 'Employee Name',
       dataIndex: 'employee_name',
-      key: 'employee_name',
       width: 150,
       render: (_: unknown, record: AttendanceRecord) => {
         const emp = employees.find(e => e.employee_id === record.employee_id);
@@ -1424,7 +1418,6 @@ export default function AttendancePage() {
             {
               title: 'Date',
               dataIndex: 'date',
-              key: 'date',
               width: 110,
               render: (date: string) => (
                 <div style={{ fontWeight: 600 }}>
@@ -1439,7 +1432,6 @@ export default function AttendancePage() {
             {
               title: 'Status',
               dataIndex: 'status',
-              key: 'status',
               width: 90,
               render: (status: string) => (
                 <Tag color={getStatusColor(status)} icon={getStatusIcon(status)} style={{ margin: 0 }}>
@@ -1557,7 +1549,6 @@ export default function AttendancePage() {
             {
               title: 'Note',
               dataIndex: 'note',
-              key: 'note',
               ellipsis: true,
             },
           ]}

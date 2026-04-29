@@ -55,10 +55,9 @@ export default function LeaveManagementPage() {
       const empData = Array.isArray(res.data)
         ? res.data
         : (res.data as { employees?: Array<Record<string, unknown>> })?.employees || [];
-      console.log('Employees loaded:', empData);
+
       setEmployees(empData);
     } catch (error) {
-      console.error('Failed to load employees', error);
       message.error('Failed to load employees');
     }
   };
@@ -79,7 +78,7 @@ export default function LeaveManagementPage() {
         ? res.data
         : (res.data as { leaves?: Array<Record<string, unknown>> })?.leaves || [];
 
-      console.log('Raw leave data:', data);
+
       // Calculate days and enrich with employee info
       const enriched = data.map((leave: Record<string, unknown>) => {
         const fromDate = dayjs(String(leave.from_date));
@@ -101,7 +100,6 @@ export default function LeaveManagementPage() {
       setLeaves(enriched);
     } catch (error) {
       message.error('Failed to load leave records');
-      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -139,7 +137,6 @@ export default function LeaveManagementPage() {
       loadData();
     } catch (err) {
       message.error('Failed to delete leave record');
-      console.error(err);
     }
   };
 
@@ -160,7 +157,6 @@ export default function LeaveManagementPage() {
         status: String(values.Status),
       };
 
-      console.log('Submitting leave data:', data);
 
       let res;
       if (editingLeave) {
@@ -184,7 +180,6 @@ export default function LeaveManagementPage() {
       loadData();
     } catch (err) {
       message.error('Failed to save leave record');
-      console.error(err);
     }
   };
 
@@ -192,7 +187,6 @@ export default function LeaveManagementPage() {
     {
       title: 'FSS ID',
       dataIndex: 'fss_id',
-      key: 'fss_id',
       width: 110,
       render: (_: string, record: LeaveRecord) => {
         const emp = employees.find(e => e.employee_id === record.employee_id);
@@ -203,39 +197,34 @@ export default function LeaveManagementPage() {
     {
       title: 'Employee Name',
       dataIndex: 'employee_name',
-      key: 'employee_name',
       width: 180,
       render: (_: string, record: LeaveRecord) => {
         const emp = employees.find(e => e.employee_id === record.employee_id);
-        const name = record.employee_name || (emp?.full_name || emp?.name);
+        const name = record.employee_name || String(emp?.full_name || emp?.name || '-');
         return <span style={{ fontSize: '11px' }}>{name || '-'}</span>;
       }
     },
     {
       title: 'From Date',
       dataIndex: 'from_date',
-      key: 'from_date',
       width: 110,
       render: (date: string) => <span style={{ fontSize: '11px' }}>{dayjs(date).format('DD MMM YYYY')}</span>
     },
     {
       title: 'To Date',
       dataIndex: 'to_date',
-      key: 'to_date',
       width: 110,
       render: (date: string) => <span style={{ fontSize: '11px' }}>{dayjs(date).format('DD MMM YYYY')}</span>
     },
     {
       title: 'Days',
       dataIndex: 'days',
-      key: 'days',
       width: 60,
       render: (days: number) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{days}</span>
     },
     {
       title: 'Leave Type',
       dataIndex: 'leave_type',
-      key: 'leave_type',
       width: 120,
       render: (type: string) => {
         const colors: Record<string, string> = {
@@ -251,14 +240,12 @@ export default function LeaveManagementPage() {
     {
       title: 'Reason',
       dataIndex: 'reason',
-      key: 'reason',
       ellipsis: true,
       render: (text: string) => <span style={{ fontSize: '11px' }}>{text}</span>
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
       width: 100,
       render: (status: string) => (
         <Tag color={status === 'approved' ? 'green' : status === 'pending' ? 'orange' : 'red'} style={{ fontSize: '11px' }}>

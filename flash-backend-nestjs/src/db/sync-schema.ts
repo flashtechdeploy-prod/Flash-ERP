@@ -14,7 +14,7 @@ async function syncSchema() {
 
   const client = new Client({
     connectionString: connectionString,
-    ssl: { rejectUnauthorized: false }
+    // ssl: { rejectUnauthorized: false } // Disabled for local dev
   });
 
   try {
@@ -24,6 +24,8 @@ async function syncSchema() {
     const queries = [
       // Sync Employees table: Add password field for mobile login and metadata
       `ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "password" text;`,
+      `ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "cnic_issue_date" text;`,
+      `ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "mother_name" text;`,
       `ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "created_at" timestamp DEFAULT now();`,
       `ALTER TABLE "employees" ADD COLUMN IF NOT EXISTS "updated_at" timestamp DEFAULT now();`,
       

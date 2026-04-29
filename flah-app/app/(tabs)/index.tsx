@@ -815,17 +815,17 @@ export default function DashboardScreen() {
             maxDate={new Date().toLocaleDateString('en-CA')}
             markedDates={{
               ...markedDates,
-              [selectedDate]: { ...(markedDates[selectedDate] || {}), selected: true, selectedColor: '#2563eb' }
+              [selectedDate]: { ...(markedDates[selectedDate] || {}), selected: true, selectedColor: '#4f46e5' }
             }}
             theme={{
               calendarBackground: '#fff',
               textSectionTitleColor: '#94a3b8',
-              selectedDayBackgroundColor: '#2563eb',
+              selectedDayBackgroundColor: '#4f46e5',
               selectedDayTextColor: '#ffffff',
-              todayTextColor: '#2563eb',
+              todayTextColor: '#4f46e5',
               dayTextColor: '#1e293b',
               textDisabledColor: '#e2e8f0',
-              dotColor: '#2563eb',
+              dotColor: '#4f46e5',
               selectedDotColor: '#ffffff',
               arrowColor: '#1e293b',
               monthTextColor: '#1e293b',
@@ -833,9 +833,9 @@ export default function DashboardScreen() {
               textDayFontWeight: '600',
               textMonthFontWeight: '800',
               textDayHeaderFontWeight: '600',
-              textDayFontSize: 14,
+              textDayFontSize: 13,
               textMonthFontSize: 0,
-              textDayHeaderFontSize: 12
+              textDayHeaderFontSize: 11
             }}
             renderHeader={() => null}
             style={{ marginTop: 10 }}
@@ -851,9 +851,9 @@ export default function DashboardScreen() {
           <View style={{ marginBottom: 20 }}>
             {selectedDayHistory.map((item, index) => {
               const phases = [
-                { id: 'check_in', label: 'CHECK IN', time: item.check_in, pic: item.picture, loc: item.location, icon: 'enter-outline', color: '#2563eb' },
+                { id: 'check_in', label: 'CHECK IN', time: item.check_in, pic: item.picture, loc: item.location, icon: 'enter-outline', color: '#4f46e5' },
                 { id: 'check_out', label: 'CHECK OUT', time: item.check_out, pic: item.check_out_picture, loc: item.check_out_location, icon: 'exit-outline', color: '#f59e0b' },
-                { id: 'overtime_in', label: 'OT IN', time: item.overtime_in, pic: item.overtime_in_picture, loc: item.overtime_in_location, icon: 'play-outline', color: '#7c3aed' },
+                { id: 'overtime_in', label: 'OT IN', time: item.overtime_in, pic: item.overtime_in_picture, loc: item.overtime_in_location, icon: 'play-outline', color: '#a855f7' },
                 { id: 'overtime_out', label: 'OT OUT', time: item.overtime_out, pic: item.overtime_out_picture, loc: item.overtime_out_location, icon: 'stop-outline', color: '#10b981' },
               ].filter(p => !!p.time);
 
@@ -943,50 +943,51 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fdfdfe' },
+  safeArea: { flex: 1, backgroundColor: '#f1f5f9' },
   container: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingTop: 10 },
+  scrollContent: { paddingHorizontal: 16, paddingTop: 6 },
 
   // Header Styles
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 30, marginTop: 10 },
-  headerProfile: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  avatarMini: { width: 50, height: 50, borderRadius: 25, backgroundColor: '#1e293b', justifyContent: 'center', alignItems: 'center' },
-  avatarMiniText: { color: '#fff', fontSize: 20, fontWeight: '800' },
-  welcomeRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  welcomeBackText: { fontSize: 13, color: '#94a3b8', fontWeight: '500' },
-  liveBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0fdf4', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, gap: 4 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, marginTop: 4 },
+  headerProfile: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  avatarMini: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' },
+  avatarMiniText: { color: '#fff', fontSize: 18, fontWeight: '800' },
+  welcomeRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  welcomeBackText: { fontSize: 12, color: '#64748b', fontWeight: '500' },
+  liveBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0fdf4', paddingHorizontal: 6, paddingVertical: 1.5, borderRadius: 4, gap: 4 },
   liveDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#10b981' },
-  liveBadgeText: { fontSize: 9, fontWeight: '800', color: '#10b981', letterSpacing: 0.5 },
-  profileFullName: { fontSize: 22, fontWeight: '800', color: '#1e293b', marginTop: -2, flexWrap: 'wrap' },
-  profileFssNo: { fontSize: 12, fontWeight: '700', color: '#94a3b8', marginTop: 2 },
+  liveBadgeText: { fontSize: 8.5, fontWeight: '800', color: '#10b981', letterSpacing: 0.5 },
+  profileFullName: { fontSize: 20, fontWeight: '800', color: '#0f172a', marginTop: -2, flexWrap: 'wrap' },
+  profileFssNo: { fontSize: 11, fontWeight: '700', color: '#94a3b8', marginTop: 1 },
   endSessionBtn: { alignItems: 'center' },
-  endSessionText: { fontSize: 9, fontWeight: '800', color: '#64748b', marginTop: 4 },
+  endSessionText: { fontSize: 8.5, fontWeight: '800', color: '#64748b', marginTop: 4 },
 
   // Attendance Card
-  attendanceWhiteCard: { backgroundColor: '#fff', borderRadius: 40, padding: 24, shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 30, elevation: 8, marginBottom: 30 },
-  cardHeaderSmall: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  cardHeaderLabel: { fontSize: 18, fontWeight: '800', color: '#1e293b' },
-  monthBadge: { backgroundColor: '#f1f5f9', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 12 },
-  monthBadgeText: { fontSize: 13, fontWeight: '700', color: '#475569' },
-  readyText: { fontSize: 14, color: '#94a3b8', marginBottom: 20, fontWeight: '500' },
+  attendanceWhiteCard: { backgroundColor: '#fff', borderRadius: 32, padding: 20, shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 20, elevation: 6, marginBottom: 24 },
+  cardHeaderSmall: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
+  cardHeaderLabel: { fontSize: 17, fontWeight: '800', color: '#0f172a' },
+  monthBadge: { backgroundColor: '#f1f5f9', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 },
+  monthBadgeText: { fontSize: 12, fontWeight: '700', color: '#475569' },
+  readyText: { fontSize: 13, color: '#94a3b8', marginBottom: 16, fontWeight: '500' },
   attendanceForm: { width: '100%' },
-  dashedCameraTrigger: { width: '100%', height: 180, borderRadius: 32, borderStyle: 'dashed', borderWidth: 2, borderColor: '#e2e8f0', justifyContent: 'center', alignItems: 'center', marginBottom: 20, overflow: 'hidden' },
+  dashedCameraTrigger: { width: '100%', height: 160, borderRadius: 28, borderStyle: 'dashed', borderWidth: 2, borderColor: '#e2e8f0', justifyContent: 'center', alignItems: 'center', marginBottom: 16, overflow: 'hidden' },
   fullPreview: { width: '100%', height: '100%', objectFit: 'cover' },
   cameraCenter: { alignItems: 'center' },
-  cameraIconBg: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center', marginBottom: 16 },
-  cameraPromptText: { fontSize: 14, fontWeight: '700', color: '#64748b' },
-  selectStatusLabel: { fontSize: 11, fontWeight: '800', color: '#94a3b8', textAlign: 'center', marginBottom: 16, letterSpacing: 1 },
-  statusBarRow: { flexDirection: 'row', gap: 10, marginBottom: 20 },
-  statusSelectBtn: { flex: 1, height: 44, borderRadius: 12, borderWidth: 1, borderColor: '#f1f5f9', backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center' },
-  statusSelectBtnActive: { backgroundColor: '#fff', borderColor: '#e2e8f0', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 5, elevation: 2 },
-  statusSelectText: { fontSize: 10, fontWeight: '800', color: '#94a3b8' },
-  statusSelectTextActive: { color: '#1e293b' },
-  leavePickerContainer: { marginBottom: 20, backgroundColor: '#f8fafc', borderRadius: 16, overflow: 'hidden' },
-  simplePicker: { height: 50, color: '#1e293b' },
-  whiteNoteInput: { backgroundColor: '#f8fafc', borderRadius: 16, padding: 16, fontSize: 15, color: '#1e293b', marginBottom: 20, borderWidth: 1, borderColor: '#f1f5f9' },
-  confirmBtn: { height: 64, borderRadius: 24, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 10, elevation: 6 },
+  cameraIconBg: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center', marginBottom: 12 },
+  cameraPromptText: { fontSize: 13, fontWeight: '700', color: '#64748b' },
+  selectStatusLabel: { fontSize: 10, fontWeight: '800', color: '#94a3b8', textAlign: 'center', marginBottom: 12, letterSpacing: 1 },
+  statusBarRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  statusSelectBtn: { flex: 1, height: 40, borderRadius: 10, borderWidth: 1, borderColor: '#f1f5f9', backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center' },
+  statusSelectBtnActive: { backgroundColor: '#fff', borderColor: '#e2e8f0', shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  statusSelectText: { fontSize: 9.5, fontWeight: '800', color: '#94a3b8' },
+  statusSelectTextActive: { color: '#0f172a' },
+  leavePickerContainer: { marginBottom: 16, backgroundColor: '#f8fafc', borderRadius: 12, overflow: 'hidden' },
+  simplePicker: { height: 44, color: '#0f172a' },
+  whiteNoteInput: { backgroundColor: '#f8fafc', borderRadius: 12, padding: 14, fontSize: 14, color: '#0f172a', marginBottom: 16, borderWidth: 1, borderColor: '#f1f5f9' },
+  confirmBtn: { height: 56, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 8, elevation: 4 },
   confirmBtnDisabled: { opacity: 0.5 },
-  confirmBtnText: { color: '#fff', fontSize: 16, fontWeight: '900', letterSpacing: 1 },
+  confirmBtnText: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 1 },
+
 
   // Timeline Styles
   recordWrapper: { backgroundColor: '#fff', borderRadius: 24, padding: 16, marginBottom: 16, borderWidth: 1, borderColor: '#f1f5f9', shadowColor: '#000', shadowOpacity: 0.02, shadowRadius: 10, elevation: 2 },
@@ -1031,8 +1032,8 @@ const styles = StyleSheet.create({
   historySectionLabel: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   historyMainTitle: { fontSize: 18, fontWeight: '800', color: '#1e293b' },
   historySubtitle: { fontSize: 13, color: '#94a3b8', fontWeight: '500' },
-  viewAllBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#eff6ff', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12, gap: 4 },
-  viewAllText: { fontSize: 12, fontWeight: '700', color: '#2563eb' },
+  viewAllBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#eef2ff', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12, gap: 4 },
+  viewAllText: { fontSize: 12, fontWeight: '700', color: '#4f46e5' },
 
   // Premium Calendar Card
   premiumCalendarCard: { backgroundColor: '#fff', borderRadius: 32, padding: 20, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 20, elevation: 4, marginBottom: 24, borderWidth: 1, borderColor: '#f8fafc' },

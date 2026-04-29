@@ -18,9 +18,9 @@ async function main() {
 
   const pool = new Pool({
     connectionString: cleanConnectionString,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl: cleanConnectionString.includes('sslmode=require') || cleanConnectionString.includes('46.202.194.55')
+      ? { rejectUnauthorized: false }
+      : false,
   });
 
   const db = drizzle(pool, { schema });

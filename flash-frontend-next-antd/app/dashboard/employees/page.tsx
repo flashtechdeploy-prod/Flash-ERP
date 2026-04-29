@@ -189,7 +189,6 @@ export default function EmployeesPage() {
       // Refresh the employee list
       await fetchEmployees();
     } catch (error) {
-      console.error('Delete error:', error);
       message.error('Failed to delete employee');
     }
   };
@@ -232,17 +231,13 @@ export default function EmployeesPage() {
         formData.append('category', 'profile_photo');
 
         const uploadResponse = await employeeApi.uploadDocument(empId, formData);
-        console.log('Upload response:', uploadResponse);
-
         if (!uploadResponse.error && (uploadResponse.data as any)?.file_path) {
           const filePath = (uploadResponse.data as any).file_path;
-          console.log('Updating employee profile_photo with:', filePath);
 
           // Update employee with profile picture URL
           const finalUpdateResponse = await employeeApi.update(employeeData.employee_id, {
             profile_photo: filePath
           });
-          console.log('Final update response:', finalUpdateResponse);
         }
       }
     }
@@ -285,7 +280,7 @@ export default function EmployeesPage() {
       setGeneralItems(items);
     }
   };
-  console.log("employees", employees)
+
 
   const handleAssignRestrictedItem = async (employee: Employee) => {
     setSelectedEmployeeForAssignment(employee);
@@ -345,7 +340,6 @@ export default function EmployeesPage() {
       setGeneralItemDrawerVisible(false);
       generalItemForm.resetFields();
     } catch (error) {
-      console.error('General item assignment error:', error);
       message.error('Failed to assign general item');
     }
   };
@@ -394,7 +388,6 @@ export default function EmployeesPage() {
       setSelectedRestrictedItem(null);
       setRestrictedSerialUnits([]);
     } catch (error) {
-      console.error('Restricted item assignment error:', error);
       message.error('Failed to assign restricted item');
     }
   };
@@ -448,7 +441,6 @@ export default function EmployeesPage() {
     {
       title: 'FSS Number',
       dataIndex: 'fss_no',
-      key: 'fss_no',
       width: 120,
       fixed: 'left' as const,
       sorter: true,
@@ -460,7 +452,6 @@ export default function EmployeesPage() {
     {
       title: 'Name',
       dataIndex: 'full_name',
-      key: 'full_name',
       width: 200,
       fixed: 'left' as const,
       sorter: true,
@@ -470,14 +461,12 @@ export default function EmployeesPage() {
     {
       title: 'Father Name',
       dataIndex: 'father_name',
-      key: 'father_name',
       width: 150,
       ...getColumnSearchProps('father_name', 'Father Name'),
     },
     {
       title: 'CNIC',
       dataIndex: 'cnic',
-      key: 'cnic',
       width: 150,
       sorter: true,
       render: (text: string, record: Employee) => text || record.cnic_no || '-',
@@ -486,7 +475,6 @@ export default function EmployeesPage() {
     {
       title: 'Date of Birth',
       dataIndex: 'date_of_birth',
-      key: 'date_of_birth',
       width: 120,
       render: (text: string, record: Employee) => text || record.dob || '-',
       ...getColumnSearchProps('date_of_birth', 'Date of Birth'),
@@ -494,7 +482,6 @@ export default function EmployeesPage() {
     {
       title: 'Mobile',
       dataIndex: 'mobile_number',
-      key: 'mobile_number',
       width: 130,
       render: (text: string, record: Employee) => text || record.mobile_no || record.phone || '-',
       ...getColumnSearchProps('mobile_number', 'Mobile Number'),
@@ -502,21 +489,18 @@ export default function EmployeesPage() {
     {
       title: 'Wallet A/C Number',
       dataIndex: 'main_number',
-      key: 'main_number',
       width: 130,
       render: (text: string) => text || '-',
     },
     {
       title: 'Person Status',
       dataIndex: 'person_status',
-      key: 'person_status',
       width: 120,
       sorter: true,
     },
     {
       title: 'Rank',
       dataIndex: 'rank',
-      key: 'rank',
       width: 100,
       sorter: true,
     },

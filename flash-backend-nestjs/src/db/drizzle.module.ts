@@ -18,9 +18,9 @@ export const DRIZZLE = 'DRIZZLE';
           .replace('&sslmode=require', '');
         const pool = new Pool({
           connectionString: cleanConnectionString,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          ssl: connectionString?.includes('sslmode=require') || connectionString?.includes('46.202.194.55')
+            ? { rejectUnauthorized: false }
+            : false,
         } as any);
         return drizzle(pool, { schema });
       },

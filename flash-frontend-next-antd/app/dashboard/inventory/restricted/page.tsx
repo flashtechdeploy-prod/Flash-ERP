@@ -50,8 +50,6 @@ export default function RestrictedInventoryPage() {
   const loadEmployees = async () => {
     try {
       const response = await employeeApi.getAll({ limit: '10000' });
-      console.log('=== EMPLOYEES API RESPONSE ===');
-      console.log('Full response:', response);
       let empData: Record<string, unknown>[] = [];
 
       if (Array.isArray(response)) {
@@ -64,7 +62,6 @@ export default function RestrictedInventoryPage() {
         }
       }
 
-      console.log('✅ Loaded employees:', empData);
       setEmployees(empData);
     } catch (error) {
       console.error('❌ Employee API error:', error);
@@ -75,9 +72,7 @@ export default function RestrictedInventoryPage() {
   const loadCategories = async () => {
     try {
       const response = await restrictedInventoryApi.getCategories();
-      console.log('Categories response:', response);
       const categoryList = response.data ? (Array.isArray(response.data) ? response.data : []) : [];
-      console.log('Loaded categories:', categoryList);
       setCategories(categoryList);
     } catch (error) {
       console.error('Failed to load categories:', error);
@@ -87,9 +82,7 @@ export default function RestrictedInventoryPage() {
   const loadWeaponRegions = async () => {
     try {
       const response = await restrictedInventoryApi.getWeaponRegions();
-      console.log('Weapon regions response:', response);
       const regionList = response.data ? (Array.isArray(response.data) ? response.data : []) : [];
-      console.log('Loaded weapon regions:', regionList);
       setWeaponRegions(regionList);
     } catch (error) {
       console.error('Failed to load weapon regions:', error);
@@ -104,16 +97,10 @@ export default function RestrictedInventoryPage() {
         restrictedInventoryApi.getTransactions(),
       ]);
 
-      console.log('=== RESTRICTED INVENTORY ITEMS API RESPONSE ===');
-      console.log('Full response:', itemsResponse);
       const itemsData = Array.isArray(itemsResponse?.data) ? itemsResponse.data : (Array.isArray(itemsResponse) ? itemsResponse : []);
-      console.log('✅ Loaded items:', itemsData);
       setItems(itemsData);
 
-      console.log('=== RESTRICTED INVENTORY TRANSACTIONS API RESPONSE ===');
-      console.log('Full response:', transResponse);
       const transData = Array.isArray(transResponse?.data) ? transResponse.data : (Array.isArray(transResponse) ? transResponse : []);
-      console.log('✅ Loaded transactions:', transData);
       setTransactions(transData);
     } catch (error) {
       console.error('❌ Inventory API error:', error);
@@ -126,10 +113,7 @@ export default function RestrictedInventoryPage() {
   const loadSerialUnits = async (itemCode: string) => {
     try {
       const response = await restrictedInventoryApi.getSerialUnits(itemCode);
-      console.log('=== SERIAL UNITS API RESPONSE ===');
-      console.log('Full response:', response);
-      const serialData = response?.data || (Array.isArray(response) ? response : []);
-      console.log('✅ Loaded serial units:', serialData);
+      const serialData: Record<string, unknown>[] = Array.isArray(response?.data) ? response.data : (Array.isArray(response) ? response : []);
       setSerialUnits(serialData);
     } catch (error) {
       console.error('❌ Serial units API error:', error);
@@ -197,8 +181,6 @@ export default function RestrictedInventoryPage() {
         license_number: values.license_number || undefined,
         weapon_region: values.weapon_region || undefined,
       };
-
-      console.log('📤 Submitting item data:', data);
 
       if (editingItem) {
         // For edit, include item_code to update the correct record
@@ -281,8 +263,6 @@ export default function RestrictedInventoryPage() {
         status: String(values.status || 'in_stock'),
       };
 
-      console.log('📤 Adding serial unit:', data);
-
       await restrictedInventoryApi.createSerialUnit(String(selectedItem?.item_code), data);
       message.success('Serial unit added');
       serialForm.resetFields();
@@ -304,8 +284,6 @@ export default function RestrictedInventoryPage() {
     try {
       const values = await issueForm.validateFields();
       const fssNumber = String(values.employee_id);
-
-      console.log('📤 Issuing serial unit to employee:', fssNumber);
 
       await restrictedInventoryApi.issueSerial(selectedSerialUnitId!, fssNumber);
       message.success('Serial unit issued');
@@ -442,7 +420,7 @@ export default function RestrictedInventoryPage() {
 
       // Create item lookup maps
       const generalItemMap = new Map(generalItems.map((item: any) => [item.item_code, item.name || item.item_name]));
-      const restrictedItemMap = new Map(restrictedItems.map((item: any) => [item.item_code, item.name]));
+      const restrictedItemMap = new Map((restrictedItems as any[]).map((item: any) => [item.item_code, item.name]));
       const vehicleMap = new Map(vehicles.map((v: any) => [v.vehicle_id || v.id, v.vehicle_name || v.name || v.make_model]));
 
       // Filter only 'issue' transactions and add item names
@@ -450,7 +428,7 @@ export default function RestrictedInventoryPage() {
         .filter((t: any) => t.action === 'issue')
         .map((t: any) => ({ ...t, item_name: generalItemMap.get(t.item_code) || 'Unknown Item' }));
 
-      const restrictedIssued = restrictedTrans
+      const restrictedIssued = (restrictedTrans as any[])
         .filter((t: any) => t.action === 'issue')
         .map((t: any) => ({ ...t, item_name: restrictedItemMap.get(t.item_code) || 'Unknown Item' }));
 
@@ -470,12 +448,11 @@ export default function RestrictedInventoryPage() {
   };
 
   const itemColumns = [
-    { title: 'Code', dataIndex: 'item_code', key: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
-    { title: 'Name', dataIndex: 'name', key: 'name', width: 200, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Code', dataIndex: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'Name', dataIndex: 'name', width: 200, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
     {
       title: 'Category',
       dataIndex: 'category',
-      key: 'category',
       width: 120,
       render: (category: string) => {
         const colors: Record<string, string> = { weapon: 'red', ammunition: 'orange', equipment: 'blue' };
@@ -485,20 +462,18 @@ export default function RestrictedInventoryPage() {
     {
       title: 'Total',
       dataIndex: 'serial_total',
-      key: 'serial_total',
       width: 100,
       render: (v: number, record: Record<string, unknown>) => {
         const isAmmo = String(record.category || '').toUpperCase() === 'AMMUNITION' || record.is_serial_tracked === false;
         const label = isAmmo ? 'qty' : 'units';
         // For ammo, use quantity_on_hand directly; for weapons, use serial_total
-        const displayValue = isAmmo ? (record.quantity_on_hand || 0) : v;
+        const displayValue: number = isAmmo ? Number(record.quantity_on_hand || 0) : v;
         return <span style={{ fontSize: '11px', fontWeight: 600 }}>{displayValue} {label}</span>;
       }
     },
     {
       title: 'Available',
       dataIndex: 'serial_in_stock',
-      key: 'serial_in_stock',
       width: 100,
       render: (v: number, record: Record<string, unknown>) => {
         const isAmmo = String(record.category || '').toUpperCase() === 'AMMUNITION' || record.is_serial_tracked === false;
@@ -509,7 +484,6 @@ export default function RestrictedInventoryPage() {
     {
       title: 'Issued',
       dataIndex: 'issued_units',
-      key: 'issued_units',
       width: 100,
       render: (v: number, record: Record<string, unknown>) => {
         const isAmmo = String(record.category || '').toUpperCase() === 'AMMUNITION' || record.is_serial_tracked === false;
@@ -545,18 +519,17 @@ export default function RestrictedInventoryPage() {
   ];
 
   const serialColumns = [
-    { title: 'Serial Number', dataIndex: 'serial_number', key: 'serial_number', width: 150, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'Serial Number', dataIndex: 'serial_number', width: 150, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
       width: 120,
       render: (status: string) => {
         const colors: Record<string, string> = { in_stock: 'green', issued: 'blue', maintenance: 'orange', lost: 'red' };
         return <Tag color={colors[status] || 'default'} style={{ fontSize: '11px' }}>{status?.toUpperCase()}</Tag>;
       }
     },
-    { title: 'Issued To (FSS)', dataIndex: 'issued_to_employee_id', key: 'issued_to_employee_id', width: 140, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
+    { title: 'Issued To (FSS)', dataIndex: 'issued_to_employee_id', width: 140, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
     {
       title: 'Actions',
       key: 'actions',
@@ -577,11 +550,10 @@ export default function RestrictedInventoryPage() {
   ];
 
   const transactionColumns = [
-    { title: 'Date', dataIndex: 'created_at', key: 'created_at', width: 110, render: (t: string) => <span style={{ fontSize: '11px' }}>{t ? new Date(t).toLocaleDateString() : '-'}</span> },
+    { title: 'Date', dataIndex: 'created_at', width: 110, render: (t: string) => <span style={{ fontSize: '11px' }}>{t ? new Date(t).toLocaleDateString() : '-'}</span> },
     {
       title: 'FSS No.',
       dataIndex: 'employee_id',
-      key: 'employee_id',
       width: 120,
       render: (t: string) => (
         <Button
@@ -594,11 +566,10 @@ export default function RestrictedInventoryPage() {
         </Button>
       )
     },
-    { title: 'Item', dataIndex: 'item_code', key: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
+    { title: 'Item', dataIndex: 'item_code', width: 100, render: (t: string) => <span style={{ fontSize: '11px', fontWeight: 600 }}>{t}</span> },
     {
       title: 'Item Name',
       dataIndex: 'item_code',
-      key: 'item_name',
       width: 150,
       render: (code: string) => {
         const item = items.find((i: any) => i.item_code === code);
@@ -608,7 +579,6 @@ export default function RestrictedInventoryPage() {
     {
       title: 'Category',
       dataIndex: 'item_code',
-      key: 'category',
       width: 100,
       render: (code: string) => {
         const item = items.find((i: any) => i.item_code === code);
@@ -617,12 +587,11 @@ export default function RestrictedInventoryPage() {
         return category ? <Tag color={colors[category] || 'default'} style={{ fontSize: '11px' }}>{category.toUpperCase()}</Tag> : '-';
       }
     },
-    { title: 'Serial', dataIndex: 'serial_number', key: 'serial_number', width: 120, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
-    { title: 'Quantity', dataIndex: 'quantity', key: 'quantity', width: 90, render: (v: number) => <span style={{ fontSize: '11px' }}>{v || '-'}</span> },
+    { title: 'Serial', dataIndex: 'serial_number', width: 120, render: (t: string) => <span style={{ fontSize: '11px' }}>{t || '-'}</span> },
+    { title: 'Quantity', dataIndex: 'quantity', width: 90, render: (v: number) => <span style={{ fontSize: '11px' }}>{v || '-'}</span> },
     {
       title: 'Type',
       dataIndex: 'action',
-      key: 'action',
       width: 100,
       render: (type: string) => {
         const colors: Record<string, string> = { issue: 'blue', return: 'green' };
@@ -630,7 +599,7 @@ export default function RestrictedInventoryPage() {
       }
     },
 
-    { title: 'Notes', dataIndex: 'notes', key: 'notes', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
+    { title: 'Notes', dataIndex: 'notes', ellipsis: true, render: (t: string) => <span style={{ fontSize: '11px' }}>{t}</span> },
   ];
 
   const filteredItems = items.filter(item =>
@@ -642,6 +611,23 @@ export default function RestrictedInventoryPage() {
   const totalUnits = filteredItems.reduce((sum, item) => sum + Number(item.serial_total || 0), 0);
   const availableUnits = filteredItems.reduce((sum, item) => sum + Number(item.serial_in_stock || 0), 0);
   const issuedUnits = filteredItems.reduce((sum, item) => sum + Number(item.issued_units || 0), 0);
+
+  const tabItems = [
+    {
+      key: 'items',
+      label: 'Items',
+      children: (
+        <Table columns={itemColumns} dataSource={filteredItems} rowKey="item_code" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+      ),
+    },
+    {
+      key: 'transactions',
+      label: 'Transactions',
+      children: (
+        <Table columns={transactionColumns} dataSource={transactions} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
+      ),
+    },
+  ];
 
   return (
     <div style={{ padding: '24px' }}>
@@ -670,14 +656,7 @@ export default function RestrictedInventoryPage() {
         </Col>
       </Row>
 
-      <Tabs defaultActiveKey="items">
-        <Tabs.TabPane tab="Items" key="items">
-          <Table columns={itemColumns} dataSource={filteredItems} rowKey="item_code" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Transactions" key="transactions">
-          <Table columns={transactionColumns} dataSource={transactions} rowKey="id" loading={loading} size="small" pagination={{ pageSize: 20 }} style={{ fontSize: '11px' }} />
-        </Tabs.TabPane>
-      </Tabs>
+      <Tabs defaultActiveKey="items" items={tabItems} />
 
       {/* Item Drawer */}
       <Drawer
