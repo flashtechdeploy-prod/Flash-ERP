@@ -903,7 +903,7 @@ render: (val: string, record: PayrollEmployee) => (
                 value={totalGross}
                 prefix={<RiseOutlined style={{ color: '#10b981' }} />}
                 formatter={(val) => `Rs. ${val.toLocaleString()}`}
-                valueStyle={{ color: '#14532d', fontWeight: 800 }}
+                styles={{ content: { color: '#14532d', fontWeight: 800 } }}
               />
             </Card>
           </Col>
@@ -919,7 +919,7 @@ render: (val: string, record: PayrollEmployee) => (
                 value={totalOvertime}
                 prefix={<ClockCircleOutlined style={{ color: '#3b82f6' }} />}
                 formatter={(val) => `Rs. ${val.toLocaleString()}`}
-                valueStyle={{ color: '#1e3a8a', fontWeight: 800 }}
+                styles={{ content: { color: '#1e3a8a', fontWeight: 800 } }}
               />
             </Card>
           </Col>
@@ -935,7 +935,7 @@ render: (val: string, record: PayrollEmployee) => (
                 value={totalDeductions}
                 prefix={<FallOutlined style={{ color: '#ef4444' }} />}
                 formatter={(val) => `Rs. ${val.toLocaleString()}`}
-                valueStyle={{ color: '#7f1d1d', fontWeight: 800 }}
+                styles={{ content: { color: '#7f1d1d', fontWeight: 800 } }}
               />
             </Card>
           </Col>
@@ -951,7 +951,7 @@ render: (val: string, record: PayrollEmployee) => (
                 value={totalNet}
                 prefix={<SafetyCertificateOutlined style={{ color: 'white' }} />}
                 formatter={(val) => `Rs. ${val.toLocaleString()}`}
-                valueStyle={{ color: 'white', fontWeight: 900, fontSize: '24px' }}
+                styles={{ content: { color: 'white', fontWeight: 900, fontSize: '24px' } }}
               />
             </Card>
           </Col>
@@ -1083,7 +1083,7 @@ render: (val: string, record: PayrollEmployee) => (
       <Drawer
         title={<span style={{ fontSize: '18px', fontWeight: 800 }}>Sites for {selectedClient?.name}</span>}
         placement="right"
-        width={800}
+        size="large"
         onClose={() => setSitesDrawerVisible(false)}
         open={sitesDrawerVisible}
       >
@@ -1137,7 +1137,7 @@ render: (val: string, record: PayrollEmployee) => (
       <Drawer
         title={<span style={{ fontSize: '18px', fontWeight: 800 }}>Guards at {selectedSite?.name} ({selectedClient?.name})</span>}
         placement="right"
-        width="95%"
+        size="large"
         onClose={() => setGuardsDrawerVisible(false)}
         open={guardsDrawerVisible}
       >
@@ -1370,7 +1370,7 @@ render: (val: string, record: PayrollEmployee) => (
         title={<span style={{ fontSize: '20px', fontWeight: 800 }}>Salary Summary - {month.format('MMMM YYYY')}</span>}
         open={summaryModalVisible}
         onClose={() => setSummaryModalVisible(false)}
-        width={800}
+        size="large"
         extra={
           <Button type="primary" icon={<PrinterOutlined />} onClick={handlePrintSummary}>
             Print Summary

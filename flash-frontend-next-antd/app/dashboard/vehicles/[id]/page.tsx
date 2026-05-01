@@ -322,9 +322,11 @@ export default function VehicleDetailPage() {
                 value={monthlyFuelUsage}
                 precision={2}
                 suffix="L"
-                valueStyle={{
-                  color: monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? '#cf1322' :
-                    monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) * 0.8 ? '#faad14' : '#3f8600'
+                styles={{
+                  content: {
+                    color: monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? '#cf1322' :
+                      monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) * 0.8 ? '#faad14' : '#3f8600'
+                  }
                 }}
               />
             </Col>
@@ -332,9 +334,11 @@ export default function VehicleDetailPage() {
               <Statistic
                 title="Status"
                 value={monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? 'Exceeded' : 'Within Limit'}
-                valueStyle={{
-                  color: monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? '#cf1322' : '#3f8600',
-                  fontSize: '16px'
+                styles={{
+                  content: {
+                    color: monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? '#cf1322' : '#3f8600',
+                    fontSize: '16px'
+                  }
                 }}
                 prefix={monthlyFuelUsage > Number(vehicle.fuel_limit_monthly) ? <WarningOutlined /> : null}
               />
@@ -420,7 +424,7 @@ export default function VehicleDetailPage() {
         ]}
       />
 
-      <Drawer title="Edit Vehicle" open={editDrawerVisible} onClose={() => setEditDrawerVisible(false)} width={720} destroyOnClose>
+      <Drawer title="Edit Vehicle" open={editDrawerVisible} onClose={() => setEditDrawerVisible(false)} size="large" destroyOnClose>
         <VehicleForm initialValues={vehicle} onSubmit={handleUpdate} onCancel={() => setEditDrawerVisible(false)} />
       </Drawer>
 
@@ -428,7 +432,7 @@ export default function VehicleDetailPage() {
         title={`Upload ${uploadType === 'document' ? 'Document' : 'Image'}`}
         open={uploadDrawerVisible}
         onClose={() => setUploadDrawerVisible(false)}
-        width={480}
+        size="default"
         footer={
           <div style={{ textAlign: 'right' }}>
             <Button onClick={() => setUploadDrawerVisible(false)} style={{ marginRight: 8 }}>Cancel</Button>
@@ -456,7 +460,7 @@ export default function VehicleDetailPage() {
         title="Preview"
         open={previewVisible}
         onClose={() => setPreviewVisible(false)}
-        width={900}
+        size="large"
         footer={
           <div style={{ textAlign: 'right' }}>
             <Button icon={<DownloadOutlined />} href={previewFile} target="_blank" style={{ marginRight: 8 }}>Download</Button>

@@ -643,16 +643,16 @@ export default function RestrictedInventoryPage() {
 
       <Row gutter={16} style={{ marginBottom: '24px' }}>
         <Col span={6}>
-          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Total Items</span>} value={totalItems} valueStyle={{ fontSize: '20px' }} prefix={<SafetyOutlined />} /></Card>
+          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Total Items</span>} value={totalItems} styles={{ content: { fontSize: '20px' } }} prefix={<SafetyOutlined />} /></Card>
         </Col>
         <Col span={6}>
-          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Total Units</span>} value={totalUnits} valueStyle={{ fontSize: '20px', color: '#1890ff' }} prefix={<LockOutlined />} /></Card>
+          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Total Units</span>} value={totalUnits} styles={{ content: { fontSize: '20px', color: '#1890ff' } }} prefix={<LockOutlined />} /></Card>
         </Col>
         <Col span={6}>
-          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Available</span>} value={availableUnits} valueStyle={{ fontSize: '20px', color: '#52c41a' }} prefix={<CheckCircleOutlined />} /></Card>
+          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Available</span>} value={availableUnits} styles={{ content: { fontSize: '20px', color: '#52c41a' } }} prefix={<CheckCircleOutlined />} /></Card>
         </Col>
         <Col span={6}>
-          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Issued</span>} value={issuedUnits} valueStyle={{ fontSize: '20px', color: '#faad14' }} prefix={<CloseCircleOutlined />} /></Card>
+          <Card><Statistic title={<span style={{ fontSize: '12px' }}>Issued</span>} value={issuedUnits} styles={{ content: { fontSize: '20px', color: '#faad14' } }} prefix={<CloseCircleOutlined />} /></Card>
         </Col>
       </Row>
 
@@ -662,7 +662,7 @@ export default function RestrictedInventoryPage() {
       <Drawer
         title={editingItem ? 'Edit Item' : 'Add Item'}
         placement="right"
-        width={720}
+        size="large"
         onClose={() => setItemDrawerVisible(false)}
         open={itemDrawerVisible}
         footer={<div style={{ textAlign: 'right' }}><Space><Button onClick={() => setItemDrawerVisible(false)}>Cancel</Button><Button type="primary" onClick={handleSubmitItem}>{editingItem ? 'Update' : 'Create'}</Button></Space></div>}
@@ -690,7 +690,7 @@ export default function RestrictedInventoryPage() {
       <Drawer
         title={`Serial Units - ${selectedItem?.name || 'Unknown'}`}
         placement="right"
-        width={900}
+        size="large"
         onClose={() => setSerialDrawerVisible(false)}
         open={serialDrawerVisible}
         extra={<Button type="primary" icon={<PlusOutlined />} onClick={handleAddSerial}>Add Serial Unit</Button>}
@@ -702,7 +702,7 @@ export default function RestrictedInventoryPage() {
       <Drawer
         title="Record Transaction"
         placement="right"
-        width={720}
+        size="large"
         onClose={() => setTransactionDrawerVisible(false)}
         open={transactionDrawerVisible}
         footer={<div style={{ textAlign: 'right' }}><Space><Button onClick={() => setTransactionDrawerVisible(false)}>Cancel</Button><Button type="primary" onClick={handleSubmitTransaction}>Submit</Button></Space></div>}
@@ -738,7 +738,7 @@ export default function RestrictedInventoryPage() {
       <Drawer
         title="Return Item"
         placement="right"
-        width={720}
+        size="large"
         onClose={() => setReturnDrawerVisible(false)}
         open={returnDrawerVisible}
         footer={<div style={{ textAlign: 'right' }}><Space><Button onClick={() => setReturnDrawerVisible(false)}>Cancel</Button><Button type="primary" onClick={handleSubmitReturn}>Submit</Button></Space></div>}

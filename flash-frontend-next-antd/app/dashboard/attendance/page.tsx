@@ -985,7 +985,7 @@ export default function AttendancePage() {
             <Statistic
               title="Present"
               value={summary.present}
-              valueStyle={{ color: '#52c41a' }}
+              styles={{ content: { color: '#52c41a' } }}
               prefix={<CheckCircleOutlined />}
             />
           </Card>
@@ -995,7 +995,7 @@ export default function AttendancePage() {
             <Statistic
               title="Late"
               value={summary.late}
-              valueStyle={{ color: '#faad14' }}
+              styles={{ content: { color: '#faad14' } }}
               prefix={<ClockCircleOutlined />}
             />
           </Card>
@@ -1005,7 +1005,7 @@ export default function AttendancePage() {
             <Statistic
               title="Absent"
               value={summary.absent}
-              valueStyle={{ color: '#ff4d4f' }}
+              styles={{ content: { color: '#ff4d4f' } }}
               prefix={<CloseCircleOutlined />}
             />
           </Card>
@@ -1015,7 +1015,7 @@ export default function AttendancePage() {
             <Statistic
               title="Leave"
               value={summary.leave}
-              valueStyle={{ color: '#1890ff' }}
+              styles={{ content: { color: '#1890ff' } }}
               prefix={<CalendarOutlined />}
             />
           </Card>
@@ -1133,7 +1133,7 @@ export default function AttendancePage() {
         title="Edit Attendance Details"
         open={editDrawerVisible}
         onClose={() => setEditDrawerVisible(false)}
-        width={480}
+        size="default"
         footer={
           <div style={{ textAlign: 'right' }}>
             <Button onClick={() => setEditDrawerVisible(false)} style={{ marginRight: 8 }}>
@@ -1406,7 +1406,7 @@ export default function AttendancePage() {
         }
         open={historyModalVisible}
         onCancel={() => setHistoryModalVisible(false)}
-        width={900}
+        width={1000}
         footer={[
           <Button key="close" onClick={() => setHistoryModalVisible(false)}>
             Close

@@ -373,7 +373,7 @@ export default function GeneralInventoryPage() {
             <Statistic
               title={<span style={{ fontSize: '12px' }}>Total Quantity</span>}
               value={totalStock}
-              valueStyle={{ fontSize: '20px', color: '#1890ff' }}
+              styles={{ content: { fontSize: '20px', color: '#1890ff' } }}
               prefix={<InboxOutlined />}
             />
           </Card>
@@ -386,7 +386,7 @@ export default function GeneralInventoryPage() {
       <Drawer
         title={editingItem ? 'Edit Item' : 'Add Item'}
         placement="right"
-        width={720}
+        size="large"
         onClose={() => setItemDrawerVisible(false)}
         open={itemDrawerVisible}
         footer={<div style={{ textAlign: 'right' }}><Space><Button onClick={() => setItemDrawerVisible(false)}>Cancel</Button><Button type="primary" onClick={handleSubmitItem}>{editingItem ? 'Update' : 'Create'}</Button></Space></div>}
@@ -409,7 +409,7 @@ export default function GeneralInventoryPage() {
       <Drawer
         title="Record Transaction"
         placement="right"
-        width={720}
+        size="large"
         onClose={() => setTransactionDrawerVisible(false)}
         open={transactionDrawerVisible}
         footer={<div style={{ textAlign: 'right' }}><Space><Button onClick={() => setTransactionDrawerVisible(false)}>Cancel</Button><Button type="primary" onClick={handleSubmitTransaction}>Submit</Button></Space></div>}

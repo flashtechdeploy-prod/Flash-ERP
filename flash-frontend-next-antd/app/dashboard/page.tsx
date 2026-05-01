@@ -118,8 +118,9 @@ export default function DashboardHome() {
       const activities: Record<string, unknown>[] = [];
 
       // Add recent attendance
-      attendance.slice(0, 3).forEach((att: Record<string, unknown>) => {
+      attendance.slice(0, 3).forEach((att: Record<string, unknown>, idx: number) => {
         activities.push({
+          id: `activity-att-${idx}`,
           type: 'attendance',
           description: `${att.employee_id} marked ${att.status}`,
           time: 'Today',
@@ -128,8 +129,9 @@ export default function DashboardHome() {
       });
 
       // Add recent expenses
-      expenses.slice(0, 2).forEach((exp: Record<string, unknown>) => {
+      expenses.slice(0, 2).forEach((exp: Record<string, unknown>, idx: number) => {
         activities.push({
+          id: `activity-exp-${idx}`,
           type: 'expense',
           description: `Expense: ${exp.description}`,
           time: dayjs(String(exp.date)).format('DD MMM'),
@@ -189,7 +191,7 @@ export default function DashboardHome() {
             <Statistic
               title={<span style={{ fontSize: '13px' }}>Total Employees</span>}
               value={stats.totalEmployees}
-              valueStyle={{ fontSize: '24px', color: '#1890ff' }}
+              styles={{ content: { fontSize: '24px', color: '#1890ff' } }}
               prefix={<UserOutlined />}
             />
             <div style={{ marginTop: '8px', fontSize: '12px', color: '#52c41a' }}>
@@ -203,7 +205,7 @@ export default function DashboardHome() {
             <Statistic
               title={<span style={{ fontSize: '13px' }}>Total Vehicles</span>}
               value={stats.totalVehicles}
-              valueStyle={{ fontSize: '24px', color: '#722ed1' }}
+              styles={{ content: { fontSize: '24px', color: '#722ed1' } }}
               prefix={<CarOutlined />}
             />
           </Card>
@@ -214,7 +216,7 @@ export default function DashboardHome() {
             <Statistic
               title={<span style={{ fontSize: '13px' }}>Total Clients</span>}
               value={stats.totalClients}
-              valueStyle={{ fontSize: '24px', color: '#13c2c2' }}
+              styles={{ content: { fontSize: '24px', color: '#13c2c2' } }}
               prefix={<TeamOutlined />}
             />
           </Card>
@@ -225,7 +227,7 @@ export default function DashboardHome() {
             <Statistic
               title={<span style={{ fontSize: '13px' }}>Monthly Expenses</span>}
               value={stats.monthlyExpenses}
-              valueStyle={{ fontSize: '24px', color: '#ff4d4f' }}
+              styles={{ content: { fontSize: '24px', color: '#ff4d4f' } }}
               prefix={<DollarOutlined />}
               suffix="Rs."
             />
@@ -242,7 +244,7 @@ export default function DashboardHome() {
                 <Statistic
                   title="Present"
                   value={stats.todayPresent}
-                  valueStyle={{ fontSize: '28px', color: '#52c41a' }}
+                  styles={{ content: { fontSize: '28px', color: '#52c41a' } }}
                   prefix={<CheckCircleOutlined />}
                 />
               </Col>
@@ -250,7 +252,7 @@ export default function DashboardHome() {
                 <Statistic
                   title="Absent"
                   value={stats.todayAbsent}
-                  valueStyle={{ fontSize: '28px', color: '#ff4d4f' }}
+                  styles={{ content: { fontSize: '28px', color: '#ff4d4f' } }}
                   prefix={<ClockCircleOutlined />}
                 />
               </Col>
@@ -265,7 +267,7 @@ export default function DashboardHome() {
                 <Statistic
                   title="Active Advances"
                   value={stats.activeAdvances}
-                  valueStyle={{ fontSize: '28px', color: '#faad14' }}
+                  styles={{ content: { fontSize: '28px', color: '#faad14' } }}
                   prefix={<WarningOutlined />}
                 />
               </Col>
@@ -273,7 +275,7 @@ export default function DashboardHome() {
                 <Statistic
                   title="Low Stock Items"
                   value={stats.lowStockItems}
-                  valueStyle={{ fontSize: '28px', color: '#ff4d4f' }}
+                  styles={{ content: { fontSize: '28px', color: '#ff4d4f' } }}
                   prefix={<InboxOutlined />}
                 />
               </Col>
@@ -292,7 +294,7 @@ export default function DashboardHome() {
                   <Statistic
                     title="Income"
                     value={stats.monthlyIncome}
-                    valueStyle={{ fontSize: '24px', color: '#52c41a' }}
+                    styles={{ content: { fontSize: '24px', color: '#52c41a' } }}
                     prefix={<RiseOutlined />}
                     suffix="Rs."
                   />
@@ -303,7 +305,7 @@ export default function DashboardHome() {
                   <Statistic
                     title="Expenses"
                     value={stats.monthlyExpenses}
-                    valueStyle={{ fontSize: '24px', color: '#ff4d4f' }}
+                    styles={{ content: { fontSize: '24px', color: '#ff4d4f' } }}
                     prefix={<FallOutlined />}
                     suffix="Rs."
                   />
@@ -314,10 +316,12 @@ export default function DashboardHome() {
                   <Statistic
                     title="Net Balance"
                     value={stats.monthlyIncome - stats.monthlyExpenses}
-                    valueStyle={{
-                      fontSize: '24px',
-                      color: (stats.monthlyIncome - stats.monthlyExpenses) >= 0 ? '#52c41a' : '#ff4d4f',
-                      fontWeight: 600
+                    styles={{
+                      content: {
+                        fontSize: '24px',
+                        color: (stats.monthlyIncome - stats.monthlyExpenses) >= 0 ? '#52c41a' : '#ff4d4f',
+                        fontWeight: 600
+                      }
                     }}
                     prefix={<DollarOutlined />}
                     suffix="Rs."
@@ -336,7 +340,7 @@ export default function DashboardHome() {
             <Table
               columns={activityColumns}
               dataSource={recentActivities}
-              rowKey={(record, index) => `activity-${index}`}
+              rowKey="id"
               size="small"
               pagination={false}
               style={{ fontSize: '12px' }}

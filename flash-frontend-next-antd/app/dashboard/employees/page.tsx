@@ -633,7 +633,7 @@ export default function EmployeesPage() {
 
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} sm={8}>
-          <Card bordered={false} className="shadow-sm">
+          <Card variant="borderless" className="shadow-sm">
             <Statistic
               title="Total Employees"
               value={kpis.total}
@@ -642,21 +642,21 @@ export default function EmployeesPage() {
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card bordered={false} className="shadow-sm">
+          <Card variant="borderless" className="shadow-sm">
             <Statistic
               title="Active Employees"
               value={kpis.by_status['Active'] || 0}
-              valueStyle={{ color: '#3f8600' }}
+              styles={{ content: { color: '#3f8600' } }}
               prefix={<CheckCircleOutlined />}
             />
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card bordered={false} className="shadow-sm">
+          <Card variant="borderless" className="shadow-sm">
             <Statistic
               title="Inactive/Suspended"
               value={(kpis.by_status['Inactive'] || 0) + (kpis.by_status['Suspended'] || 0)}
-              valueStyle={{ color: '#cf1322' }}
+              styles={{ content: { color: '#cf1322' } }}
               prefix={<StopOutlined />}
             />
           </Card>
@@ -755,7 +755,7 @@ export default function EmployeesPage() {
         title={editingEmployee ? 'Edit Employee' : 'Add Employee'}
         open={drawerVisible}
         onClose={() => setDrawerVisible(false)}
-        width={720}
+        size="large"
         destroyOnClose
       >
         <EmployeeForm
@@ -770,7 +770,7 @@ export default function EmployeesPage() {
         title={`Assign General Item - ${selectedEmployeeForAssignment?.full_name || selectedEmployeeForAssignment?.name || ''}`}
         open={generalItemDrawerVisible}
         onClose={() => setGeneralItemDrawerVisible(false)}
-        width={600}
+        size="large"
         destroyOnClose
         footer={
           <div style={{ textAlign: 'right' }}>

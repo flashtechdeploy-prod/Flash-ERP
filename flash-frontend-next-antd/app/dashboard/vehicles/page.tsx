@@ -346,7 +346,7 @@ export default function VehiclesPage() {
         title={editingVehicle ? 'Edit Vehicle' : 'Add Vehicle'}
         open={drawerVisible}
         onClose={() => setDrawerVisible(false)}
-        width={720}
+        size="large"
         destroyOnClose
       >
         <VehicleForm
