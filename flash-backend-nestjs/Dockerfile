@@ -15,10 +15,8 @@ COPY . .
 # Remove any stale incremental build cache
 RUN rm -f *.tsbuildinfo
 
-# Build the application - run tsc directly to force file emission and see any errors
-RUN ./node_modules/.bin/tsc -p tsconfig.build.json --noEmit false --incremental false --noEmitOnError false 2>&1; \
-    echo "=== dist/ contents after build ==="; \
-    ls -la dist/ 2>/dev/null || echo "dist/ directory does not exist"
+# Build the application using tsc directly (bypasses nest build cache issues)
+RUN ./node_modules/.bin/tsc -p tsconfig.build.json --noEmit false --incremental false --noEmitOnError false
 
 # Verify the build output exists (will fail the build if dist is empty)
 RUN test -f dist/main.js || (echo "ERROR: dist/main.js was not generated!" && exit 1)
