@@ -12,8 +12,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the application - this MUST produce dist/main.js
-RUN npm run build
+# Remove any stale incremental build cache
+RUN rm -f *.tsbuildinfo
+
+# Build the application - run tsc directly to force file emission and see any errors
+RUN ./node_modules/.bin/tsc -p tsconfig.build.json --noEmit false --incremental false
 
 # Verify the build output exists (will fail the build if dist is empty)
 RUN test -f dist/main.js || (echo "ERROR: dist/main.js was not generated!" && exit 1)
