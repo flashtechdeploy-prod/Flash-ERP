@@ -35,8 +35,12 @@ RUN npm ci --omit=dev
 # Copy the compiled output from the builder stage
 COPY --from=builder /app/dist ./dist
 
+# Copy tsconfig.json so tsconfig-paths can resolve src/ aliases at runtime
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+COPY --from=builder /app/tsconfig.build.json ./tsconfig.build.json
+
 # Expose the port the app runs on
 EXPOSE 8000
 
 # Start the production server
-CMD ["node", "dist/main.js"]
+CMD ["node", "-r", "tsconfig-paths/register", "dist/main.js"]
