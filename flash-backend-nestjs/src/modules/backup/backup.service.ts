@@ -93,11 +93,11 @@ export class BackupService {
       );
       this.logger.log('Upload to Cloudflare R2 successful.');
 
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Backup failed: ${error.message}`);
       throw error;
     } finally {
-      await client.end().catch(e => this.logger.error(`Failed to close db client: ${e.message}`));
+      await client.end().catch((e: any) => this.logger.error(`Failed to close db client: ${e.message}`));
       if (fs.existsSync(backupPath)) {
         fs.unlinkSync(backupPath);
         this.logger.log('Temporary local file cleaned up.');

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Flash ERP",
-    "slug": "flah-app",
+    "slug": "flash-erp-app",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -58,8 +58,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "ab671827-d1c1-4526-b131-db12a7147959"
+        "projectId": "c0ce3951-027d-4064-bd69-e32075ea2857"
       }
-    }
+    },
+    "owner": "flashtechdeploy"
   }
 }

@@ -29,7 +29,7 @@ async function migrate() {
     `);
     
     console.log('Success! Column added.');
-  } catch (err) {
+  } catch (err: any) {
     console.error('Migration failed:', err.message);
   } finally {
     await client.end();

@@ -73,7 +73,7 @@ async function main() {
           'INSERT INTO clients (client_id, name, status) VALUES ($1, $2, $3) RETURNING id',
           [clientRefId, clientName, 'active']
         );
-        clientId = res.rows[0].id;
+        clientId = res.rows[0].id as number;
         clientMap.set(clientName, clientId);
         clientsCreated++;
       }
@@ -81,11 +81,11 @@ async function main() {
       // Create Site
       await pool.query(
         'INSERT INTO client_sites (client_id, name, guards_required, status) VALUES ($1, $2, $3, $4)',
-        [clientId, siteName, empCount, 'active']
+        [clientId as number, siteName, empCount, 'active']
       );
       sitesCreated++;
       
-    } catch (err) {
+    } catch (err: any) {
       console.error(`[ERROR] Failed at row ${i + 1} (${particulars}):`, err.message);
     }
   }

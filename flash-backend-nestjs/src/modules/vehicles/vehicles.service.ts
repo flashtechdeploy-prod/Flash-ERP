@@ -16,7 +16,7 @@ export class VehiclesService {
   ) {}
 
   async findAll(skip = 0, limit = 100, category?: string) {
-    const filters = [];
+    const filters: any[] = [];
     if (category) {
       filters.push(eq(schema.vehicles.category, category));
     }
@@ -66,7 +66,7 @@ export class VehiclesService {
         .onConflictDoNothing()
         .returning();
       return result || { message: 'Category already exists' };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error('Failed to add category:', error);
       throw error;
     }
@@ -140,7 +140,7 @@ export class VehiclesService {
         .onConflictDoNothing()
         .returning();
       return result || { message: 'Type already exists' };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error('Failed to add vehicle type:', error);
       throw error;
     }
@@ -276,7 +276,7 @@ export class VehiclesService {
       
       this.logger.log(`Vehicle document uploaded successfully: ${filename}`);
       return result;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to upload document for vehicle ${vehicleId}:`, error);
       throw error;
     }
@@ -332,7 +332,7 @@ export class VehiclesService {
       
       this.logger.log(`Vehicle image uploaded successfully: ${filename}`);
       return result;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to upload image for vehicle ${vehicleId}:`, error);
       throw error;
     }

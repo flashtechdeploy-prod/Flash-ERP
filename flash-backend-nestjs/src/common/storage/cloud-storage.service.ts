@@ -66,7 +66,7 @@ export class CloudStorageService {
       this.logger.log(
         `Cloud Storage (B2 S3) initialized. Bucket: ${this.bucketName}`,
       );
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to initialize S3 client: ${error.message}`);
     }
   }
@@ -115,7 +115,7 @@ export class CloudStorageService {
             const url = `/uploads/${key}`;
             this.logger.log(`File saved locally: ${filePath}`);
             return { filename: uniqueFilename, url };
-        } catch (error) {
+        } catch (error: any) {
              this.logger.error(`Failed to save file locally: ${error.message}`);
              throw error;
         }
@@ -138,7 +138,7 @@ export class CloudStorageService {
 
       this.logger.log(`File uploaded successfully: ${url}`);
       return { filename: uniqueFilename, url };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to upload to cloud storage: ${error.message}`);
       throw error;
     }
@@ -155,7 +155,7 @@ export class CloudStorageService {
                fs.unlinkSync(filePath);
                this.logger.log(`Local file deleted: ${key}`);
            }
-       } catch(e) {
+       } catch(e: any) {
            this.logger.warn(`Failed to delete local file: ${e.message}`);
        }
        return;
@@ -169,7 +169,7 @@ export class CloudStorageService {
         })
       );
       this.logger.log(`File deleted: ${key}`);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to delete file: ${error.message}`);
     }
   }

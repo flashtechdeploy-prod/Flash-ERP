@@ -17,7 +17,7 @@ async function checkColumns() {
     `);
     console.log('Columns in payroll_sheet_entries:');
     res.rows.forEach(row => console.log(` - ${row.column_name} (${row.data_type})`));
-  } catch (err) {
+  } catch (err: any) {
     console.error('Check failed:', err.message);
   } finally {
     await client.end();

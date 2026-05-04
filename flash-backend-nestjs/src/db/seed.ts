@@ -44,7 +44,7 @@ async function main() {
           full_name: 'Admin User',
           is_admin: true,
           is_active: true,
-        })
+        } as any)
         .returning();
 
       console.log('Seeded admin user with id:', user.id);

@@ -36,7 +36,7 @@ async function main() {
 
     // Parse client and site name
     let clientName = raw;
-    let siteName = null;
+    let siteName: string | null = null;
     const parenIdx = raw.indexOf('(');
     if (parenIdx !== -1) {
       clientName = raw.slice(0, parenIdx).trim();
@@ -86,7 +86,7 @@ async function main() {
   await pool.end();
 }
 
-main().catch(err => {
+main().catch((err: any) => {
   console.error('[FATAL ERROR]', err);
   process.exit(1);
 });

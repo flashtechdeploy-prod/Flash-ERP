@@ -34,7 +34,7 @@ async function main() {
     } else {
       console.log('ℹ️ Test employee already exists');
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('❌ Error seeding employee:', err.message);
   } finally {
     await pool.end();

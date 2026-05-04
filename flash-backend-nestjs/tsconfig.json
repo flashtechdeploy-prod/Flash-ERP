@@ -1,30 +1,28 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "ES2021",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "isolatedModules": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
     "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "incremental": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,     
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "baseUrl": "./",
-    "paths": {
-      "src/*": [
-        "src/*"
-      ]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "drizzle.config.ts", "drizzle/**/*"]
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
 }

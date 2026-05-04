@@ -26,7 +26,7 @@ async function main() {
     `);
     console.table(samples.rows);
 
-  } catch (err) {
+  } catch (err: any) {
     console.error('Check failed:', err.message);
   } finally {
     await pool.end();

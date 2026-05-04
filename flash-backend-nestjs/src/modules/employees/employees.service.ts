@@ -79,7 +79,7 @@ export class EmployeesService {
           ilike(schema.employees.cnic_no, `%${search}%`),
           ilike(schema.employees.fss_no, `%${search}%`),
           ilike(schema.employees.personal_phone_number, `%${search}%`),
-        ),
+        ) as SQL,
       );
     }
 
@@ -262,7 +262,7 @@ export class EmployeesService {
         .where(eq(schema.employees.employee_id, employee_id));
         
       return { message: `Employee ${employee_id} deleted successfully` };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to delete employee ${employee_id}:`, error);
       throw new Error(`Failed to delete employee: ${error.message}`);
     }
@@ -484,7 +484,7 @@ export class EmployeesService {
           ilike(schema.employees.cnic, `%${search}%`),
           ilike(schema.employees.cnic_no, `%${search}%`),
           ilike(schema.employees.fss_no, `%${search}%`),
-        ),
+        ) as SQL,
       );
     }
 
@@ -718,7 +718,7 @@ export class EmployeesService {
         })
         .returning();
       return result;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to upload warning document: ${error.message}`, error.stack);
       throw error;
     }
@@ -739,8 +739,8 @@ export class EmployeesService {
 
   async fixLegacyEmployeeIds() {
     const allEmployees = await this.db.select().from(schema.employees);
-    const updated = [];
-    const skipped = [];
+    const updated: any[] = [];
+    const skipped: any[] = [];
 
     const toFix = allEmployees.filter(emp => {
       if (!emp.fss_no) return false;
@@ -755,7 +755,7 @@ export class EmployeesService {
         await this.fixEmployeeIdByDbId(emp.id);
         updated.push({ oldId: emp.employee_id, newId: `FSE-${emp.fss_no}` });
         console.log(`[ID MIGRATION] Successfully updated ${emp.employee_id} -> FSE-${emp.fss_no}`);
-      } catch (e) {
+      } catch (e: any) {
         console.error(`[ID MIGRATION] Failed to update ${emp.employee_id}: ${e.message}`);
         skipped.push({ oldId: emp.employee_id, reason: e.message });
       }
@@ -841,7 +841,7 @@ export class EmployeesService {
         // 5. Delete the OLD employee record
         await tx.delete(schema.employees).where(eq(schema.employees.id, dbId));
       });
-    } catch (e) {
+    } catch (e: any) {
       console.error(`[COMPREHENSIVE FIX ERROR] ${e.message}`);
       throw e;
     }
